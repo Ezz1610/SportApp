@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA2428192E79A94600E2B283 /* AnimatedLogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2428172E79A94600E2B283 /* AnimatedLogoViewController.swift */; };
+		AA24281A2E79A94600E2B283 /* AnimatedLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2428182E79A94600E2B283 /* AnimatedLogoViewController.xib */; };
+		AA24281E2E79AAC100E2B283 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA24281C2E79AAC100E2B283 /* HomeViewController.swift */; };
+		AA24281F2E79AAC100E2B283 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA24281D2E79AAC100E2B283 /* HomeViewController.xib */; };
+		AA2428222E79ADCF00E2B283 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2428212E79ADCF00E2B283 /* MainTabBarController.swift */; };
+		AA2428262E79AE1100E2B283 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2428242E79AE1100E2B283 /* FavoritesViewController.swift */; };
+		AA2428272E79AE1100E2B283 /* FavoritesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2428252E79AE1100E2B283 /* FavoritesViewController.xib */; };
+		AA24282B2E79B56700E2B283 /* SportsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2428292E79B56700E2B283 /* SportsCollectionViewCell.swift */; };
+		AA24282C2E79B56700E2B283 /* SportsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA24282A2E79B56700E2B283 /* SportsCollectionViewCell.xib */; };
 		C3158AB42E78783E000E3D56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB32E78783E000E3D56 /* AppDelegate.swift */; };
 		C3158AB62E78783E000E3D56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB52E78783E000E3D56 /* SceneDelegate.swift */; };
 		C3158AB82E78783E000E3D56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB72E78783E000E3D56 /* ViewController.swift */; };
@@ -36,6 +45,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA2428172E79A94600E2B283 /* AnimatedLogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedLogoViewController.swift; sourceTree = "<group>"; };
+		AA2428182E79A94600E2B283 /* AnimatedLogoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnimatedLogoViewController.xib; sourceTree = "<group>"; };
+		AA24281C2E79AAC100E2B283 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		AA24281D2E79AAC100E2B283 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
+		AA2428212E79ADCF00E2B283 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		AA2428242E79AE1100E2B283 /* FavoritesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
+		AA2428252E79AE1100E2B283 /* FavoritesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = FavoritesViewController.xib; sourceTree = "<group>"; };
+		AA2428292E79B56700E2B283 /* SportsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportsCollectionViewCell.swift; sourceTree = "<group>"; };
+		AA24282A2E79B56700E2B283 /* SportsCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SportsCollectionViewCell.xib; sourceTree = "<group>"; };
 		C3158AB02E78783E000E3D56 /* SportApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3158AB32E78783E000E3D56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3158AB52E78783E000E3D56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,6 +94,90 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA2428162E79A90B00E2B283 /* AnimatedLogoViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA2428172E79A94600E2B283 /* AnimatedLogoViewController.swift */,
+				AA2428182E79A94600E2B283 /* AnimatedLogoViewController.xib */,
+			);
+			path = AnimatedLogoViewController;
+			sourceTree = "<group>";
+		};
+		AA24281B2E79AAAC00E2B283 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA24281C2E79AAC100E2B283 /* HomeViewController.swift */,
+				AA24281D2E79AAC100E2B283 /* HomeViewController.xib */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		AA2428202E79AD8900E2B283 /* MainTabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				AA2428212E79ADCF00E2B283 /* MainTabBarController.swift */,
+			);
+			path = MainTabBarController;
+			sourceTree = "<group>";
+		};
+		AA2428232E79ADE400E2B283 /* FavouritesViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AA2428242E79AE1100E2B283 /* FavoritesViewController.swift */,
+				AA2428252E79AE1100E2B283 /* FavoritesViewController.xib */,
+			);
+			path = FavouritesViewController;
+			sourceTree = "<group>";
+		};
+		AA2428282E79B53700E2B283 /* SportsCollectionViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				AA2428292E79B56700E2B283 /* SportsCollectionViewCell.swift */,
+				AA24282A2E79B56700E2B283 /* SportsCollectionViewCell.xib */,
+			);
+			path = SportsCollectionViewCell;
+			sourceTree = "<group>";
+		};
+		AA24282D2E79C17400E2B283 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AA2428282E79B53700E2B283 /* SportsCollectionViewCell */,
+				AA2428232E79ADE400E2B283 /* FavouritesViewController */,
+				AA2428202E79AD8900E2B283 /* MainTabBarController */,
+				AA24281B2E79AAAC00E2B283 /* HomeViewController */,
+				AA2428162E79A90B00E2B283 /* AnimatedLogoViewController */,
+				C3158AB92E78783E000E3D56 /* Main.storyboard */,
+				C3158ABE2E787840000E3D56 /* LaunchScreen.storyboard */,
+				C3158AB72E78783E000E3D56 /* ViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AA24282E2E79C19900E2B283 /* Sports */ = {
+			isa = PBXGroup;
+			children = (
+				AA24282D2E79C17400E2B283 /* View */,
+			);
+			path = Sports;
+			sourceTree = "<group>";
+		};
+		AA24282F2E79C2A000E2B283 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C3158AB32E78783E000E3D56 /* AppDelegate.swift */,
+				C3158AB52E78783E000E3D56 /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AA2428302E79C2DB00E2B283 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C3158ABC2E787840000E3D56 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		C3158AA72E78783E000E3D56 = {
 			isa = PBXGroup;
 			children = (
@@ -99,12 +201,9 @@
 		C3158AB22E78783E000E3D56 /* SportApp */ = {
 			isa = PBXGroup;
 			children = (
-				C3158AB32E78783E000E3D56 /* AppDelegate.swift */,
-				C3158AB52E78783E000E3D56 /* SceneDelegate.swift */,
-				C3158AB72E78783E000E3D56 /* ViewController.swift */,
-				C3158AB92E78783E000E3D56 /* Main.storyboard */,
-				C3158ABC2E787840000E3D56 /* Assets.xcassets */,
-				C3158ABE2E787840000E3D56 /* LaunchScreen.storyboard */,
+				AA2428302E79C2DB00E2B283 /* Resources */,
+				AA24282F2E79C2A000E2B283 /* App */,
+				AA24282E2E79C19900E2B283 /* Sports */,
 				C3158AC12E787840000E3D56 /* Info.plist */,
 			);
 			path = SportApp;
@@ -233,6 +332,10 @@
 			files = (
 				C3158ABD2E787840000E3D56 /* Assets.xcassets in Resources */,
 				C3158AC02E787840000E3D56 /* Base in Resources */,
+				AA24281F2E79AAC100E2B283 /* HomeViewController.xib in Resources */,
+				AA24281A2E79A94600E2B283 /* AnimatedLogoViewController.xib in Resources */,
+				AA24282C2E79B56700E2B283 /* SportsCollectionViewCell.xib in Resources */,
+				AA2428272E79AE1100E2B283 /* FavoritesViewController.xib in Resources */,
 				C3158ABB2E78783E000E3D56 /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +361,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA24281E2E79AAC100E2B283 /* HomeViewController.swift in Sources */,
+				AA2428192E79A94600E2B283 /* AnimatedLogoViewController.swift in Sources */,
+				AA2428262E79AE1100E2B283 /* FavoritesViewController.swift in Sources */,
+				AA24282B2E79B56700E2B283 /* SportsCollectionViewCell.swift in Sources */,
+				AA2428222E79ADCF00E2B283 /* MainTabBarController.swift in Sources */,
 				C3158AB82E78783E000E3D56 /* ViewController.swift in Sources */,
 				C3158AB42E78783E000E3D56 /* AppDelegate.swift in Sources */,
 				C3158AB62E78783E000E3D56 /* SceneDelegate.swift in Sources */,
