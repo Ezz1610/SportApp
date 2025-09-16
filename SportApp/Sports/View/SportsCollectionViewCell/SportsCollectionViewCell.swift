@@ -9,9 +9,14 @@ import UIKit
 
 class SportsCollectionViewCell: UICollectionViewCell {
 
+       //MARK: - Outlets
+    @IBOutlet weak var sportImageView: UIImageView!
+    
+    @IBOutlet weak var sportNameLabel: UILabel!
+    
+    
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
 }
