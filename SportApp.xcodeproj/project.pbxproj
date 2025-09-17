@@ -25,6 +25,7 @@
 		C3158ACB2E787840000E3D56 /* SportAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ACA2E787840000E3D56 /* SportAppTests.swift */; };
 		C3158AD52E787840000E3D56 /* SportAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AD42E787840000E3D56 /* SportAppUITests.swift */; };
 		C3158AD72E787840000E3D56 /* SportAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AD62E787840000E3D56 /* SportAppUITestsLaunchTests.swift */; };
+		C38B085E2E7AD942002A5E2D /* ApiUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B085D2E7AD942002A5E2D /* ApiUrls.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		C3158AD02E787840000E3D56 /* SportAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3158AD42E787840000E3D56 /* SportAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportAppUITests.swift; sourceTree = "<group>"; };
 		C3158AD62E787840000E3D56 /* SportAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C38B085D2E7AD942002A5E2D /* ApiUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 		C3158AB22E78783E000E3D56 /* SportApp */ = {
 			isa = PBXGroup;
 			children = (
+				C38B085C2E7AD930002A5E2D /* Core */,
 				AA2428302E79C2DB00E2B283 /* Resources */,
 				AA24282F2E79C2A000E2B283 /* App */,
 				AA24282E2E79C19900E2B283 /* Sports */,
@@ -224,6 +227,14 @@
 				C3158AD62E787840000E3D56 /* SportAppUITestsLaunchTests.swift */,
 			);
 			path = SportAppUITests;
+			sourceTree = "<group>";
+		};
+		C38B085C2E7AD930002A5E2D /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				C38B085D2E7AD942002A5E2D /* ApiUrls.swift */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -365,6 +376,7 @@
 				AA2428192E79A94600E2B283 /* AnimatedLogoViewController.swift in Sources */,
 				AA2428262E79AE1100E2B283 /* FavoritesViewController.swift in Sources */,
 				AA24282B2E79B56700E2B283 /* SportsCollectionViewCell.swift in Sources */,
+				C38B085E2E7AD942002A5E2D /* ApiUrls.swift in Sources */,
 				AA2428222E79ADCF00E2B283 /* MainTabBarController.swift in Sources */,
 				C3158AB82E78783E000E3D56 /* ViewController.swift in Sources */,
 				C3158AB42E78783E000E3D56 /* AppDelegate.swift in Sources */,
