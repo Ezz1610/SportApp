@@ -14,5 +14,9 @@ class ApiUrls{
     static let basketball  = "\(baseUrl)/basketball/?met=Countries&APIkey=\(apiKey)"
     static let cricket  = "\(baseUrl)/cricket/?met=Countries&APIkey=\(apiKey)"
     static let tennis  = "\(baseUrl)/tennis/?met=Countries&APIkey=\(apiKey)"
-    
+    static let leaguesBasketball  = "\(baseUrl)/basketball/?met=Leagues&APIkey=\(apiKey)"
+    static let leaguesFootball  = "\(baseUrl)/football/?met=Leagues&APIkey=\(apiKey)"
+    static let leaguesTennies  = "\(baseUrl)/tennis/?met=Leagues&APIkey=\(apiKey)"
+    static let leaguesCricket  = "\(baseUrl)/cricket/?met=Leagues&APIkey=\(apiKey)"
+
 }
