@@ -8,96 +8,34 @@
 import Foundation
 
 
-class NetworkService : FetchDataProtocol {
+class NetworkService: FetchDataProtocol {
     
-    static func fetchData<T: Decodable>(from url: String, completionHandler: @escaping (T?) -> Void) {
+    static func fetchData<T: Decodable>(from url: String, completionHandler: @escaping (Result<T, Error>) -> Void) {
         guard let url = URL(string: url) else {
-            completionHandler(nil)
+            completionHandler(.failure(NSError(domain: "InvalidURL", code: 400, userInfo: nil)))
             return
         }
-        
+
         let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
-            guard let data = data else {
-                completionHandler(nil)
+            if let error = error {
+                completionHandler(.failure(error))
                 return
             }
-            
+
+            guard let data = data else {
+                completionHandler(.failure(NSError(domain: "NoData", code: 204, userInfo: nil)))
+                return
+            }
+
             do {
-                let res = try JSONDecoder().decode(T.self, from: data)
-                completionHandler(res)
+                let decodedData = try JSONDecoder().decode(T.self, from: data)
+                completionHandler(.success(decodedData))
             } catch {
-                completionHandler(nil)
-                print(error.localizedDescription)
+                completionHandler(.failure(error))
             }
         }
         task.resume()
     }
-//    static func fetchFootballFromJSON(completionHandler: @escaping (FootballRequest?) -> Void) {
-//        let task = URLSession.shared.dataTask(with: URLRequest(url: URL(string: ApiUrls.football)!)){
-//            data , response , error in
-//            guard let data = data else{
-//                return
-//            }
-//            do {
-//                let res = try JSONDecoder().decode(FootballRequest.self, from: data)
-//                completionHandler(res)
-//            }
-//            catch{
-//                completionHandler(nil)
-//                print(error.localizedDescription)
-//                
-//            }
-//        }.resume()
-//    }  
-//    static func fetchBasketballFromJSON(completionHandler: @escaping (BasketballRequest?) -> Void) {
-//        let task = URLSession.shared.dataTask(with: URLRequest(url: URL(string: ApiUrls.basketball)!)){
-//            data , response , error in
-//            guard let data = data else{
-//                return
-//            }
-//            do {
-//                let res = try JSONDecoder().decode(BasketballRequest.self, from: data)
-//                completionHandler(res)
-//            }
-//            catch{
-//                completionHandler(nil)
-//                print(error.localizedDescription)
-//                
-//            }
-//        }.resume()
-//    } 
-//    static func fetchTenniesFromJSON(completionHandler: @escaping (TenniesRequest?) -> Void) {
-//        let task = URLSession.shared.dataTask(with: URLRequest(url: URL(string: ApiUrls.tennis)!)){
-//            data , response , error in
-//            guard let data = data else{
-//                return
-//            }
-//            do {
-//                let res = try JSONDecoder().decode(TenniesRequest.self, from: data)
-//                completionHandler(res)
-//            }
-//            catch{
-//                completionHandler(nil)
-//                print(error.localizedDescription)
-//                
-//            }
-//        }.resume()
-//    } 
-//    static func fetchCricketFromJSON(completionHandler: @escaping (CricketRequest?) -> Void) {
-//        let task = URLSession.shared.dataTask(with: URLRequest(url: URL(string: ApiUrls.cricket)!)){
-//            data , response , error in
-//            guard let data = data else{
-//                return
-//            }
-//            do {
-//                let res = try JSONDecoder().decode(CricketRequest.self, from: data)
-//                completionHandler(res)
-//            }
-//            catch{
-//                completionHandler(nil)
-//                print(error.localizedDescription)
-//                
-//            }
-//        }.resume()
-//    }
 }
+
+
