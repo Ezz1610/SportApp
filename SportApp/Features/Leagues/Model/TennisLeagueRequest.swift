@@ -7,8 +7,8 @@
 
 import Foundation
 struct TennisLeagueRequest: Codable {
-    let success: Int
     let result: [TennisLeague]
+    let success: Int
 }
 
 struct TennisLeague: Codable {
@@ -16,8 +16,6 @@ struct TennisLeague: Codable {
     let league_name: String
     let country_key: Int
     let country_name: String
-    let league_logo: String?
-    let country_logo: String?
     let league_surface: String?
 }
 

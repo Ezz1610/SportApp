@@ -21,7 +21,6 @@ class FootballLeaguePresenter {
                 switch result {
                 case .success(let response):
                     self.vc.renderToView(res: response)
-                    print("✅ Football leagues count: \(response.result.count)")
                 case .failure(let error):
                     print("Error fetching football data: \(error.localizedDescription)")
                 }
