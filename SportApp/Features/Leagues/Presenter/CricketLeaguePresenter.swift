@@ -20,7 +20,7 @@ class CricketLeaguePresenter {
                 case .success(let response):
                     self.vc.renderToView(res: response)
                 case .failure(let error):
-                    print("Error fetching basketball data: \(error.localizedDescription)")
+                    print("Error fetching Cricket data: \(error.localizedDescription)")
                 }
             }
         }
