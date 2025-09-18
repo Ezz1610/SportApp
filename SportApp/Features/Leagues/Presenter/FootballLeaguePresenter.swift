@@ -16,7 +16,7 @@ class FootballLeaguePresenter {
     }
 
     func getDataFromModel() {
-        NetworkService.fetchData(from: ApiUrls.basketball) { (result: Result<FootballLeagueRequest, Error>) in
+        NetworkService.fetchData(from: ApiUrls.leaguesFootball) { (result: Result<FootballLeagueRequest, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
