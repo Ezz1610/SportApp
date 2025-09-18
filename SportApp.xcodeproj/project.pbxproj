@@ -25,6 +25,10 @@
 		C3158ACB2E787840000E3D56 /* SportAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158ACA2E787840000E3D56 /* SportAppTests.swift */; };
 		C3158AD52E787840000E3D56 /* SportAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AD42E787840000E3D56 /* SportAppUITests.swift */; };
 		C3158AD72E787840000E3D56 /* SportAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AD62E787840000E3D56 /* SportAppUITestsLaunchTests.swift */; };
+		C316029A2E7C318900D0A626 /* BasketballLeaguePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31602992E7C318900D0A626 /* BasketballLeaguePresenter.swift */; };
+		C328221B2E7C0B7C00345D00 /* CricketLeaguePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328221A2E7C0B7C00345D00 /* CricketLeaguePresenter.swift */; };
+		C328221D2E7C0BCE00345D00 /* FootballLeaguePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328221C2E7C0BCE00345D00 /* FootballLeaguePresenter.swift */; };
+		C328221F2E7C0C2100345D00 /* TennisLeaguePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C328221E2E7C0C2100345D00 /* TennisLeaguePresenter.swift */; };
 		C38B085E2E7AD942002A5E2D /* ApiUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B085D2E7AD942002A5E2D /* ApiUrls.swift */; };
 		C38B093D2E7AEB98002A5E2D /* BasketballProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B09222E7AEB98002A5E2D /* BasketballProtocol.swift */; };
 		C38B093F2E7AEB98002A5E2D /* CricketProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C38B09252E7AEB98002A5E2D /* CricketProtocol.swift */; };
@@ -90,6 +94,10 @@
 		C3158AD02E787840000E3D56 /* SportAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SportAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3158AD42E787840000E3D56 /* SportAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportAppUITests.swift; sourceTree = "<group>"; };
 		C3158AD62E787840000E3D56 /* SportAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C31602992E7C318900D0A626 /* BasketballLeaguePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasketballLeaguePresenter.swift; sourceTree = "<group>"; };
+		C328221A2E7C0B7C00345D00 /* CricketLeaguePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CricketLeaguePresenter.swift; sourceTree = "<group>"; };
+		C328221C2E7C0BCE00345D00 /* FootballLeaguePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FootballLeaguePresenter.swift; sourceTree = "<group>"; };
+		C328221E2E7C0C2100345D00 /* TennisLeaguePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TennisLeaguePresenter.swift; sourceTree = "<group>"; };
 		C38B085D2E7AD942002A5E2D /* ApiUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiUrls.swift; sourceTree = "<group>"; };
 		C38B09222E7AEB98002A5E2D /* BasketballProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasketballProtocol.swift; sourceTree = "<group>"; };
 		C38B09252E7AEB98002A5E2D /* CricketProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CricketProtocol.swift; sourceTree = "<group>"; };
@@ -265,6 +273,17 @@
 			path = SportAppUITests;
 			sourceTree = "<group>";
 		};
+		C31602982E7C313400D0A626 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				C31602992E7C318900D0A626 /* BasketballLeaguePresenter.swift */,
+				C328221A2E7C0B7C00345D00 /* CricketLeaguePresenter.swift */,
+				C328221C2E7C0BCE00345D00 /* FootballLeaguePresenter.swift */,
+				C328221E2E7C0C2100345D00 /* TennisLeaguePresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		C38B085C2E7AD930002A5E2D /* Core */ = {
 			isa = PBXGroup;
 			children = (
@@ -339,6 +358,7 @@
 		C38B094D2E7AED24002A5E2D /* Leagues */ = {
 			isa = PBXGroup;
 			children = (
+				C31602982E7C313400D0A626 /* Presenter */,
 				C38B09532E7AF156002A5E2D /* Model */,
 				C38B094F2E7AF0C8002A5E2D /* Contract */,
 				C38B094E2E7AF0BD002A5E2D /* View */,
@@ -530,8 +550,11 @@
 				AA2428192E79A94600E2B283 /* AnimatedLogoViewController.swift in Sources */,
 				AA2428262E79AE1100E2B283 /* FavoritesViewController.swift in Sources */,
 				AA24282B2E79B56700E2B283 /* SportsCollectionViewCell.swift in Sources */,
+				C328221D2E7C0BCE00345D00 /* FootballLeaguePresenter.swift in Sources */,
+				C328221B2E7C0B7C00345D00 /* CricketLeaguePresenter.swift in Sources */,
 				C38B095F2E7AFCCF002A5E2D /* FootballLeagueProtocol.swift in Sources */,
 				C38B093F2E7AEB98002A5E2D /* CricketProtocol.swift in Sources */,
+				C328221F2E7C0C2100345D00 /* TennisLeaguePresenter.swift in Sources */,
 				C38B09552E7AF68F002A5E2D /* BasketballLeague.swift in Sources */,
 				C38B085E2E7AD942002A5E2D /* ApiUrls.swift in Sources */,
 				C38B094B2E7AEB98002A5E2D /* FootballPresenter.swift in Sources */,
@@ -544,6 +567,7 @@
 				C38B095B2E7AFAC5002A5E2D /* TennisLeagueRequest.swift in Sources */,
 				C3158AB82E78783E000E3D56 /* ViewController.swift in Sources */,
 				C38B094C2E7AEB98002A5E2D /* TennisPresenter.swift in Sources */,
+				C316029A2E7C318900D0A626 /* BasketballLeaguePresenter.swift in Sources */,
 				C38B09572E7AF787002A5E2D /* CricketLeagueRequest.swift in Sources */,
 				C3158AB42E78783E000E3D56 /* AppDelegate.swift in Sources */,
 				C3158AB62E78783E000E3D56 /* SceneDelegate.swift in Sources */,

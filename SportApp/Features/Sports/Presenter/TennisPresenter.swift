@@ -6,16 +6,25 @@
 //
 
 import Foundation
+
+
 class TennisPresenter {
-    let vc : TennisProtocol
+    let vc: TennisProtocol
+    
     init(vc: TennisProtocol) {
         self.vc = vc
     }
 
-    func getDataFromModel(){
-        NetworkService.fetchTenniesFromJSON{ res in
-                    self.vc.renderToView(res: res!)
-
+    func getDataFromModel() {
+        NetworkService.fetchData(from: ApiUrls.cricket) { (result: Result<TenniesRequest, Error>) in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let response):
+                    self.vc.renderToView(res: response)
+                case .failure(let error):
+                    print("Error fetching basketball data: \(error.localizedDescription)")
+                }
+            }
         }
     }
 }

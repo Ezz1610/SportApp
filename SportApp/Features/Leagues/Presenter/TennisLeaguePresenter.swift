@@ -1,22 +1,20 @@
 //
-//  BasketballPresenter.swift
+//  TennisLeaguePresenter.swift
 //  SportApp
 //
-//  Created by mohamed ezz on 16/09/2025.
-//
+//  Created by mohamed ezz on 18/09/2025.
 //
 
 import Foundation
-
-class BasketballPresenter {
-    let vc: BasketballProtocol
+class TennisLeaguePresenter {
+    let vc: TennisLeagueProtocol
     
-    init(vc: BasketballProtocol) {
+    init(vc: TennisLeagueProtocol) {
         self.vc = vc
     }
 
     func getDataFromModel() {
-        NetworkService.fetchData(from: ApiUrls.basketball) { (result: Result<BasketballRequest, Error>) in
+        NetworkService.fetchData(from: ApiUrls.basketball) { (result: Result<TenniesLeagueRequest, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
