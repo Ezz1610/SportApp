@@ -14,13 +14,13 @@ class TennisLeaguePresenter {
     }
 
     func getDataFromModel() {
-        NetworkService.fetchData(from: ApiUrls.leaguesTennies) { (result: Result<TenniesLeagueRequest, Error>) in
+        NetworkService.fetchData(from: ApiUrls.leaguesTennies) { (result: Result<TennisLeagueRequest, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):
                     self.vc.renderToView(res: response)
                 case .failure(let error):
-                    print("Error fetching basketball data: \(error.localizedDescription)")
+                    print("Error fetching Tennis data: \(error.localizedDescription)")
                 }
             }
         }

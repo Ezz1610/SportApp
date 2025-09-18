@@ -6,17 +6,17 @@
 //
 
 import Foundation
-struct TenniesLeagueRequest : Decodable{
-    var result : [TenniesLeague]
+struct TennisLeagueRequest : Decodable{
+    var result : [TennisLeague]
     var success : Int
 
 }
-struct TenniesLeague : Decodable{
+struct TennisLeague : Decodable{
     var league_key : Int
     var league_name : String
     var country_key : Int
     var country_name : String
-    var league_surface : String
+    var league_surface : String?
 }
 
 
