@@ -30,6 +30,7 @@ class NetworkService: FetchDataProtocol {
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completionHandler(.success(decodedData))
+                print(decodedData)
             } catch {
                 completionHandler(.failure(error))
             }

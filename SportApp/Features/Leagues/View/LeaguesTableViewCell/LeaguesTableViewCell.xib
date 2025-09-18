@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="leaguesCell" rowHeight="263" id="KGk-i7-Jjw" customClass="LeaguesTableViewCell" customModule="SportApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="470" height="263"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="470" height="263"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXu-JN-m0E" userLabel="ContainerView">
+                        <rect key="frame" x="0.0" y="0.0" width="470" height="253"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yTQ-VV-DkU">
+                                <rect key="frame" x="16" y="25.333333333333329" width="141" height="202.33333333333337"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-Mq-bNE">
+                                <rect key="frame" x="165" y="113.66666666666667" width="43.666666666666657" height="25.666666666666671"/>
+                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                        <constraints>
+                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="height" secondItem="EXu-JN-m0E" secondAttribute="height" multiplier="0.8" id="2NQ-bx-9iK"/>
+                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="centerY" secondItem="EXu-JN-m0E" secondAttribute="centerY" id="6on-7B-iOP"/>
+                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="leading" secondItem="EXu-JN-m0E" secondAttribute="leading" constant="16" id="7KZ-HS-N6u"/>
+                            <constraint firstItem="8mY-Mq-bNE" firstAttribute="centerY" secondItem="EXu-JN-m0E" secondAttribute="centerY" id="G4r-eT-qEE"/>
+                            <constraint firstItem="8mY-Mq-bNE" firstAttribute="leading" secondItem="yTQ-VV-DkU" secondAttribute="trailing" constant="8" id="iEE-fr-UfD"/>
+                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="width" secondItem="EXu-JN-m0E" secondAttribute="width" multiplier="0.3" id="j7a-1G-bYO"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="EXu-JN-m0E" secondAttribute="trailing" id="Aa4-nd-XuL"/>
+                    <constraint firstAttribute="bottom" secondItem="EXu-JN-m0E" secondAttribute="bottom" constant="10" id="Ub6-tE-NR2"/>
+                    <constraint firstItem="EXu-JN-m0E" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="khN-WD-7ls"/>
+                    <constraint firstItem="EXu-JN-m0E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="t6e-02-jGa"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="leaguesContentView" destination="H2p-sc-9uM" id="kq2-Lr-dHV"/>
+                <outlet property="leaguesImageView" destination="yTQ-VV-DkU" id="lHH-76-Vn2"/>
+                <outlet property="leaguesNameLabel" destination="8mY-Mq-bNE" id="roN-a1-mAO"/>
+            </connections>
+            <point key="canvasLocation" x="198.47328244274809" y="65.845070422535215"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

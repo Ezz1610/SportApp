@@ -7,16 +7,15 @@
 
 import Foundation
 
-struct FootballLeagueRequest : Decodable{
-    var result : [FootballLeague]
+struct FootballLeagueRequest : Codable{
     var success : Int
-
+    var result : [FootballLeague]
 }
-struct FootballLeague : Decodable{
+struct FootballLeague : Codable{
     var league_key : Int
     var league_name : String
     var country_key : Int
     var country_name : String
-    var league_logo : String
+    let league_logo: String?
 }
 

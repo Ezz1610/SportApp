@@ -8,5 +8,5 @@
 import Foundation
 
 protocol TennisLeagueProtocol{
-    func renderToView (res : TenniesLeagueRequest)
+    func renderToView (res : TennisLeagueRequest)
 }
