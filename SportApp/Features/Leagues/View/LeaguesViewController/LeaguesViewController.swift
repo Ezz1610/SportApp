@@ -31,16 +31,40 @@ setupTableView()
             guard let selectedSport = selectedSport else { return }
             switch selectedSport {
             case .football:
-                let presenter = FootballLeaguePresenter(vc: self)
+//                let presenter = FootballLeaguePresenter(vc: self)
+                let presenter = LeaguePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
+                    vc: self,
+                    apiUrl: ApiUrls.leaguesBasketball
+                ) { vc, response in
+                    vc.renderToView(res: response)
+                }
                 presenter.getDataFromModel()
             case .basketball:
-                let presenter = BasketballLeaguePresenter(vc: self)
+//                let presenter = BasketballLeaguePresenter(vc: self)
+                let presenter = LeaguePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
+                    vc: self,
+                    apiUrl: ApiUrls.leaguesBasketball
+                ) { vc, response in
+                    vc.renderToView(res: response)
+                }
                 presenter.getDataFromModel()
             case .tennis:
-                let presenter = TennisLeaguePresenter(vc: self)
+//                let presenter = TennisLeaguePresenter(vc: self)
+                let presenter = LeaguePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
+                    vc: self,
+                    apiUrl: ApiUrls.leaguesTennis
+                ) { vc, response in
+                    vc.renderToView(res: response)
+                }
                 presenter.getDataFromModel()
             case .cricket:
-                let presenter = CricketLeaguePresenter(vc: self)
+//                let presenter = CricketLeaguePresenter(vc: self)
+                let presenter = LeaguePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
+                    vc: self,
+                    apiUrl: ApiUrls.leaguesCricket
+                ) { vc, response in
+                    vc.renderToView(res: response)
+                }
                 presenter.getDataFromModel()
             }
         }
