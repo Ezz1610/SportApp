@@ -32,7 +32,7 @@ setupTableView()
             switch selectedSport {
             case .football:
 //                let presenter = FootballLeaguePresenter(vc: self)
-                let presenter = LeaguePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
+                let presenter = CorePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
                     vc: self,
                     apiUrl: ApiUrls.leaguesBasketball
                 ) { vc, response in
@@ -41,7 +41,7 @@ setupTableView()
                 presenter.getDataFromModel()
             case .basketball:
 //                let presenter = BasketballLeaguePresenter(vc: self)
-                let presenter = LeaguePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
+                let presenter = CorePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
                     vc: self,
                     apiUrl: ApiUrls.leaguesBasketball
                 ) { vc, response in
@@ -50,7 +50,7 @@ setupTableView()
                 presenter.getDataFromModel()
             case .tennis:
 //                let presenter = TennisLeaguePresenter(vc: self)
-                let presenter = LeaguePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
+                let presenter = CorePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
                     vc: self,
                     apiUrl: ApiUrls.leaguesTennis
                 ) { vc, response in
@@ -59,7 +59,7 @@ setupTableView()
                 presenter.getDataFromModel()
             case .cricket:
 //                let presenter = CricketLeaguePresenter(vc: self)
-                let presenter = LeaguePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
+                let presenter = CorePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
                     vc: self,
                     apiUrl: ApiUrls.leaguesCricket
                 ) { vc, response in
