@@ -6,7 +6,7 @@
 //
 
 import Foundation
-class LeaguePresenter<ViewProtocol, ResponseType: Decodable> {
+class CorePresenter<ViewProtocol, ResponseType: Decodable> {
     let vc: ViewProtocol
     let apiUrl: String
     let render: (ViewProtocol, ResponseType) -> Void
