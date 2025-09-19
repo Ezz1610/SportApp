@@ -10,8 +10,8 @@ import Foundation
 struct BasketballLeagueRequest : Decodable{
     var result : [BasketballLeague]
     var success : Int
-
 }
+
 struct BasketballLeague : Decodable{
     var league_key : Int
     var country_key : Int
