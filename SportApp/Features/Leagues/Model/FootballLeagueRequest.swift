@@ -8,8 +8,8 @@
 import Foundation
 
 struct FootballLeagueRequest : Decodable{
-    var success : Int
     var result : [FootballLeague]
+    var success : Int
 }
 struct FootballLeague : Decodable{
     var league_key : Int

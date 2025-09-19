@@ -20,3 +20,6 @@ class ApiUrls{
     static let leaguesCricket  = "\(baseUrl)/cricket/?met=Leagues&APIkey=\(apiKey)"
 
 }
+
+
+https://apiv2.allsportsapi.com/tennis/?met=Leagues&APIkey=2120f2f312d80b0c590180019e76e23dd650d20e9d0df7f0e778e0d0e6afc9bd
