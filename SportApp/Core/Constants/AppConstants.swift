@@ -8,7 +8,10 @@
 import Foundation
 
 class AppConstants {
-    
+    static let baseUrl = "https://apiv2.allsportsapi.com"
+
+    static var apiKey : String = "2120f2f312d80b0c590180019e76e23dd650d20e9d0df7f0e778e0d0e6afc9bd"
+
     private static let calendar = Calendar.current
 
     // MARK: - Public Methods

@@ -6,19 +6,27 @@
 //
 
 import Foundation
+
 class CorePresenter<ViewProtocol, ResponseType: Decodable> {
     let vc: ViewProtocol
     let apiUrl: String
+    let queryItems: [URLQueryItem]
     let render: (ViewProtocol, ResponseType) -> Void
     
-    init(vc: ViewProtocol, apiUrl: String, render: @escaping (ViewProtocol, ResponseType) -> Void) {
+    init(
+        vc: ViewProtocol,
+        apiUrl: String,
+        queryItems: [URLQueryItem] = [],
+        render: @escaping (ViewProtocol, ResponseType) -> Void
+    ) {
         self.vc = vc
         self.apiUrl = apiUrl
+        self.queryItems = queryItems
         self.render = render
     }
 
     func getDataFromModel() {
-        NetworkService.fetchData(from: apiUrl) { (result: Result<ResponseType, Error>) in
+        NetworkService.fetchData(from: apiUrl, queryItems: queryItems) { (result: Result<ResponseType, Error>) in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let response):

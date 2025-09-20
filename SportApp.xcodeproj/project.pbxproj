@@ -24,6 +24,8 @@
 		AAAE75FB2E7C6EFF00DDB794 /* UIImageView+DownloadImageFromUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAAE75FA2E7C6EFF00DDB794 /* UIImageView+DownloadImageFromUrl.swift */; };
 		C31047632E7CD89B006DE6BD /* CorePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C31047622E7CD89B006DE6BD /* CorePresenter.swift */; };
 		C3109B452E7F337200933285 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3109B442E7F337200933285 /* AppConstants.swift */; };
+		C3109B4A2E7F49B000933285 /* StandingsTeamsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3109B492E7F49B000933285 /* StandingsTeamsRequest.swift */; };
+		C3109B4C2E7F4A0D00933285 /* StandingsTeamsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3109B4B2E7F4A0D00933285 /* StandingsTeamsProtocol.swift */; };
 		C3158AB42E78783E000E3D56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB32E78783E000E3D56 /* AppDelegate.swift */; };
 		C3158AB62E78783E000E3D56 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB52E78783E000E3D56 /* SceneDelegate.swift */; };
 		C3158AB82E78783E000E3D56 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3158AB72E78783E000E3D56 /* ViewController.swift */; };
@@ -91,6 +93,8 @@
 		AAAE75FA2E7C6EFF00DDB794 /* UIImageView+DownloadImageFromUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+DownloadImageFromUrl.swift"; sourceTree = "<group>"; };
 		C31047622E7CD89B006DE6BD /* CorePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorePresenter.swift; sourceTree = "<group>"; };
 		C3109B442E7F337200933285 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		C3109B492E7F49B000933285 /* StandingsTeamsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsTeamsRequest.swift; sourceTree = "<group>"; };
+		C3109B4B2E7F4A0D00933285 /* StandingsTeamsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StandingsTeamsProtocol.swift; sourceTree = "<group>"; };
 		C3158AB02E78783E000E3D56 /* SportApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SportApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C3158AB32E78783E000E3D56 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C3158AB52E78783E000E3D56 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -271,6 +275,31 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
+		C3109B462E7F449300933285 /* StandingsTeams */ = {
+			isa = PBXGroup;
+			children = (
+				C3109B482E7F458900933285 /* Contract */,
+				C3109B472E7F458000933285 /* Model */,
+			);
+			path = StandingsTeams;
+			sourceTree = "<group>";
+		};
+		C3109B472E7F458000933285 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C3109B492E7F49B000933285 /* StandingsTeamsRequest.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		C3109B482E7F458900933285 /* Contract */ = {
+			isa = PBXGroup;
+			children = (
+				C3109B4B2E7F4A0D00933285 /* StandingsTeamsProtocol.swift */,
+			);
+			path = Contract;
+			sourceTree = "<group>";
+		};
 		C3158AA72E78783E000E3D56 = {
 			isa = PBXGroup;
 			children = (
@@ -409,6 +438,7 @@
 		C38B093B2E7AEB98002A5E2D /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				C3109B462E7F449300933285 /* StandingsTeams */,
 				C318DEE62E7DEF7A00CE7900 /* Fixtures */,
 				C38B094D2E7AED24002A5E2D /* Leagues */,
 				C38B093A2E7AEB98002A5E2D /* Sports */,
@@ -595,9 +625,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				C38B095D2E7AFC91002A5E2D /* CricketLeagueProtocol.swift in Sources */,
+				C3109B4C2E7F4A0D00933285 /* StandingsTeamsProtocol.swift in Sources */,
 				C38B09472E7AEB98002A5E2D /* FootballRequest.swift in Sources */,
 				AA24281E2E79AAC100E2B283 /* HomeViewController.swift in Sources */,
 				C38B09432E7AEB98002A5E2D /* TennisProtocol.swift in Sources */,
+				C3109B4A2E7F49B000933285 /* StandingsTeamsRequest.swift in Sources */,
 				C38B093D2E7AEB98002A5E2D /* BasketballProtocol.swift in Sources */,
 				C38B09612E7AFCFD002A5E2D /* TennisLeagueProtocol.swift in Sources */,
 				C38B09442E7AEB98002A5E2D /* NetworkService.swift in Sources */,
