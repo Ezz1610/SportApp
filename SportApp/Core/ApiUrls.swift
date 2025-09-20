@@ -27,3 +27,22 @@ class ApiUrls{
 
 
 
+{
+    "success": 1,
+    "result": [
+        {
+            "team_key": 96,
+            "team_name": "Juventus FC",
+            "team_logo": "https://apiv2.allsportsapi.com/logo/96_juventus-fc.jpg",
+            "players": [
+                {
+                    "player_key": 41841276,
+                    "player_image": "https://apiv2.allsportsapi.com/logo/players/472_m-perin.jpg",
+                    "player_name": "M. Perin",
+                    "player_number": "1",
+                    "player_type": "Goalkeepers",
+                }
+            ]
+        }
+    ]
+}
