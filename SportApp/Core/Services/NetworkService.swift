@@ -9,14 +9,26 @@ import Foundation
 
 
 class NetworkService: FetchDataProtocol {
-    
-    static func fetchData<T: Decodable>(from url: String, completionHandler: @escaping (Result<T, Error>) -> Void) {
-        guard let url = URL(string: url) else {
+
+    /// Generic fetch function that supports query parameters
+    static func fetchData<T: Decodable>(
+        from baseURL: String,
+        queryItems: [URLQueryItem] = [],
+        completionHandler: @escaping (Result<T, Error>) -> Void
+    ) {
+        // Build the URL with query items
+        var components = URLComponents(string: baseURL)
+        components?.queryItems = queryItems
+        
+        guard let finalURL = components?.url else {
             completionHandler(.failure(NSError(domain: "InvalidURL", code: 400, userInfo: nil)))
             return
         }
 
-        let task = URLSession.shared.dataTask(with: URLRequest(url: url)) { data, response, error in
+        print("Request URL: \(finalURL.absoluteString)")
+
+        // Create the request and start the task
+        let task = URLSession.shared.dataTask(with: finalURL) { data, response, error in
             if let error = error {
                 completionHandler(.failure(error))
                 return
@@ -30,13 +42,14 @@ class NetworkService: FetchDataProtocol {
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
                 completionHandler(.success(decodedData))
-                print(decodedData)
             } catch {
                 completionHandler(.failure(error))
             }
         }
+
         task.resume()
     }
 }
+
 
 

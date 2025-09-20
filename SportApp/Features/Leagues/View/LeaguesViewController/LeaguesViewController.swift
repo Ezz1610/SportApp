@@ -28,46 +28,56 @@ setupTableView()
     
        //MARK: - Behaviour
     func setupPresenters() {
-            guard let selectedSport = selectedSport else { return }
-            switch selectedSport {
-            case .football:
-//                let presenter = FootballLeaguePresenter(vc: self)
-                let presenter = CorePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
-                    vc: self,
-                    apiUrl: ApiUrls.leaguesBasketball
-                ) { vc, response in
-                    vc.renderToView(res: response)
-                }
-                presenter.getDataFromModel()
-            case .basketball:
-//                let presenter = BasketballLeaguePresenter(vc: self)
-                let presenter = CorePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
-                    vc: self,
-                    apiUrl: ApiUrls.leaguesBasketball
-                ) { vc, response in
-                    vc.renderToView(res: response)
-                }
-                presenter.getDataFromModel()
-            case .tennis:
-//                let presenter = TennisLeaguePresenter(vc: self)
-                let presenter = CorePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
-                    vc: self,
-                    apiUrl: ApiUrls.leaguesTennis
-                ) { vc, response in
-                    vc.renderToView(res: response)
-                }
-                presenter.getDataFromModel()
-            case .cricket:
-//                let presenter = CricketLeaguePresenter(vc: self)
-                let presenter = CorePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
-                    vc: self,
-                    apiUrl: ApiUrls.leaguesCricket
-                ) { vc, response in
-                    vc.renderToView(res: response)
-                }
-                presenter.getDataFromModel()
+        guard let selectedSport = selectedSport else { return }
+        let queryItems = [
+            URLQueryItem(name: "met", value: "Leagues"),
+            URLQueryItem(name: "APIkey", value: AppConstants.apiKey)
+        ]
+        
+        switch selectedSport {
+        case .football:
+     
+            let presenter = CorePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
+                vc: self,
+                apiUrl: ApiUrls.leaguesFootball,  // use the base URL without queries
+                queryItems: queryItems
+            ) { vc, response in
+                vc.renderToView(res: response)
             }
+            presenter.getDataFromModel()
+            
+        case .basketball:
+            let presenter = CorePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
+                vc: self,
+                apiUrl: ApiUrls.leaguesBasketball,
+                queryItems: queryItems
+            ) { vc, response in
+                vc.renderToView(res: response)
+            }
+            presenter.getDataFromModel()
+            
+        case .tennis:
+            let presenter = CorePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
+                vc: self,
+                apiUrl: ApiUrls.leaguesTennis,
+                queryItems: queryItems
+            ) { vc, response in
+                vc.renderToView(res: response)
+            }
+            presenter.getDataFromModel()
+            
+        case .cricket:
+            let presenter = CorePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
+                vc: self,
+                apiUrl: ApiUrls.leaguesCricket,
+                queryItems: queryItems
+            ) { vc, response in
+                vc.renderToView(res: response)
+            }
+            presenter.getDataFromModel()
         }
+    }
+
 
 }
    //MARK: - TableView Functions
