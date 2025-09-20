@@ -7,7 +7,7 @@
 
 import Foundation
 var apiKey : String = "2120f2f312d80b0c590180019e76e23dd650d20e9d0df7f0e778e0d0e6afc9bd"
-import Foundation
+
 class ApiUrls{
     static let baseUrl = "https://apiv2.allsportsapi.com"
     static let football  = "\(baseUrl)/football/?met=Countries&APIkey=\(apiKey)"
@@ -18,31 +18,39 @@ class ApiUrls{
     static let leaguesFootball  = "\(baseUrl)/football/?met=Leagues&APIkey=\(apiKey)"
     static let leaguesTennis  = "\(baseUrl)/tennis/?met=Leagues&APIkey=\(apiKey)"
     static let leaguesCricket  = "\(baseUrl)/cricket/?met=Leagues&APIkey=\(apiKey)"
+    
+    ////// READ THIS COMMENT
+    /// Delete old version of fixtures end points ( footballFixtures & basketballFixtures  & cricketFixtures & tennisFixtures)
+
     static let footballFixtures  = "\(baseUrl)/football/?met=Fixtures&APIkey=\(apiKey)&from=209-05-23&to=2019-05-23"
     static let basketballFixtures  = "\(baseUrl)/basketball/?met=Fixtures&APIkey=\(apiKey)&from=209-05-23&to=2019-05-23"
     static let cricketFixtures  = "\(baseUrl)/cricket/?met=Fixtures&APIkey=\(apiKey)&from=209-05-23&to=2019-05-23"
     static let tennisFixtures  = "\(baseUrl)/tennis/?met=Fixtures&APIkey=\(apiKey)&from=209-05-23&to=2019-05-23"
+    
+///FIXTURES UPCOMMING EVENTS
 
+    static let upCommingEventsFootballFixtures  = "\(baseUrl)/football/?met=Fixtures&APIkey=\(apiKey)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
+    
+    static let upCommingEventsBasketballFixtures  = "\(baseUrl)/basketball/?met=Fixtures&APIkey=\(apiKey)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
+    
+    static let upCommingEventsCricketFixtures = "\(baseUrl)/cricket/?met=Fixtures&APIkey=\(apiKey)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
+    
+    static let upCommingEventsTennisFixturesUpCommingEvents  = "\(baseUrl)/tennis/?met=Fixtures&APIkey=\(apiKey)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
+    
+///FIXTURES  LATEST EVENT
+    
+    static let latestEventsFootballFixtures  = "\(baseUrl)/football/?met=Fixtures&APIkey=\(apiKey)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing:  AppConstants.getNowDate()))"
+    
+    static let latestEventsBasketballFixtures  = "\(baseUrl)/basketball/?met=Fixtures&APIkey=\(apiKey)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing:  AppConstants.getNowDate()))"
+    
+    static let latestEventsCricketFixtures  = "\(baseUrl)/cricket/?met=Fixtures&APIkey=\(apiKey)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing:  AppConstants.getNowDate()))"
+    
+    static let latestEventsTennisFixtures  = "\(baseUrl)/tennis/?met=Fixtures&APIkey=\(apiKey)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing:  AppConstants.getNowDate()))"
+    
+    
+    
+    
 }
 
 
 
-{
-    "success": 1,
-    "result": [
-        {
-            "team_key": 96,
-            "team_name": "Juventus FC",
-            "team_logo": "https://apiv2.allsportsapi.com/logo/96_juventus-fc.jpg",
-            "players": [
-                {
-                    "player_key": 41841276,
-                    "player_image": "https://apiv2.allsportsapi.com/logo/players/472_m-perin.jpg",
-                    "player_name": "M. Perin",
-                    "player_number": "1",
-                    "player_type": "Goalkeepers",
-                }
-            ]
-        }
-    ]
-}
