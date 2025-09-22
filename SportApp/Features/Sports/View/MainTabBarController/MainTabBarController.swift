@@ -22,7 +22,11 @@ class MainTabBarController: UITabBarController {
                                                 image: UIImage(systemName: "heart"),
                                                 selectedImage: UIImage(systemName: "heart.fill"))
         
-        viewControllers = [homeNav, favouritesNav]
+        let fexturesVC = FexturesViewController(nibName: "FexturesViewController", bundle: nil)
+        let fexturesNav = UINavigationController(rootViewController: fexturesVC)
+        fexturesNav.tabBarItem = UITabBarItem(title: "fex", image: UIImage(systemName: "person.fill"), tag: 2)
+        
+        viewControllers = [homeNav, favouritesNav, fexturesNav]
     }
     
     private func setupTabColors() {

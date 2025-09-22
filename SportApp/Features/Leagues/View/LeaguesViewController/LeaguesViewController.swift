@@ -8,25 +8,25 @@
 import UIKit
 
 class LeaguesViewController: UIViewController {
-   
+    
     var footballLeagues: [FootballLeague] = []
     var basketballLeagues: [BasketballLeague] = []
     var tennisLeagues: [TennisLeague] = []
     var cricketLeagues: [CricketLeague] = []
     var selectedSport: SportType?
-       //MARK: - Outlets
+    //MARK: - Outlets
     
     @IBOutlet weak var leaguesTableView: UITableView!
     
-       //MARK: - LifeCycle
+    //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
-setupTableView()
+        setupTableView()
         setupPresenters()
-
+        
     }
     
-       //MARK: - Behaviour
+    //MARK: - Behaviour
     func setupPresenters() {
         guard let selectedSport = selectedSport else { return }
         let queryItems = [
@@ -36,7 +36,7 @@ setupTableView()
         
         switch selectedSport {
         case .football:
-     
+            
             let presenter = CorePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
                 vc: self,
                 apiUrl: ApiUrls.leaguesFootball,  // use the base URL without queries
@@ -77,10 +77,20 @@ setupTableView()
             presenter.getDataFromModel()
         }
     }
-
-
+    
+    // fextures Navigation
+    private func navigateToFextures(with league: Any, sportType: SportType, leagueName: String, leagueId: Int?){
+        let fexturesVC = FexturesViewController(nibName: "FexturesViewController", bundle: nil)
+        fexturesVC.selectedLeague = league
+        fexturesVC.selectedSport = sportType
+        fexturesVC.leagueName = leagueName
+        fexturesVC.leagueId = leagueId
+        self.navigationController?.pushViewController(fexturesVC, animated: true)
+    }
+    
+    
 }
-   //MARK: - TableView Functions
+//MARK: - TableView Functions
 extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func setupTableView(){
@@ -88,7 +98,7 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         leaguesTableView.dataSource = self
         let nib = UINib(nibName: "LeaguesTableViewCell", bundle: nil)
         leaguesTableView.register(nib, forCellReuseIdentifier: "leaguesCell")
-
+        
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch selectedSport {
@@ -113,16 +123,16 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
             let league = footballLeagues[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.loadImage(from: league.league_logo)
-
+            
         case .basketball:
             let league = basketballLeagues[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
-            cell.leaguesImageView.image = UIImage(named: "basketball") 
+            cell.leaguesImageView.image = UIImage(named: "basketball")
         case .tennis:
             let league = tennisLeagues[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.image = UIImage(named: "tennis")
-
+            
         case .cricket:
             let league = cricketLeagues[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
@@ -136,27 +146,51 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         70
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let sportType = selectedSport else { return }
+        switch sportType {
+        case.football:
+            let league = footballLeagues[indexPath.row]
+                        navigateToFextures(with: league, sportType: sportType, leagueName: league.league_name, leagueId: league.league_key)
+        case .basketball:
+            let league = basketballLeagues[indexPath.row]
+            navigateToFextures(with: league, sportType: .basketball, leagueName: league.league_name, leagueId: league.league_key)
+        case .tennis:
+            let league = tennisLeagues[indexPath.row]
+            navigateToFextures(with: league, sportType: .tennis, leagueName: league.league_name, leagueId: league.league_key)
+        case .cricket:
+            let league = cricketLeagues[indexPath.row]
+            navigateToFextures(with: league, sportType: .cricket, leagueName: league.league_name, leagueId: league.league_key)
+        default: break
+            
+        }
+        
+        
+        
+    }
+    
     
 }
 
-   //MARK: - Presenter Connection
+//MARK: - Presenter Connection
 extension LeaguesViewController: FootballLeagueProtocol, BasketballLeagueProtocol, TennisLeagueProtocol, CricketLeagueProtocol {
     
     func renderToView(res: FootballLeagueRequest) {
         footballLeagues = res.result
         leaguesTableView.reloadData()
     }
-
+    
     func renderToView(res: BasketballLeagueRequest) {
         basketballLeagues = res.result
         leaguesTableView.reloadData()
     }
-
+    
     func renderToView(res: TennisLeagueRequest) {
         tennisLeagues = res.result
         leaguesTableView.reloadData()
     }
-
+    
     func renderToView(res: CricketLeagueRequest) {
         cricketLeagues = res.result
         leaguesTableView.reloadData()
