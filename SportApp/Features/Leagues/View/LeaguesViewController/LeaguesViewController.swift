@@ -9,10 +9,8 @@ import UIKit
 
 class LeaguesViewController: UIViewController {
    
-    var footballLeagues: [FootballLeague] = []
-    var basketballLeagues: [BasketballLeague] = []
-    var tennisLeagues: [TennisLeague] = []
-    var cricketLeagues: [CricketLeague] = []
+    var sportsLeague: [League] = []
+
     var selectedSport: SportType?
        //MARK: - Outlets
     
@@ -34,48 +32,14 @@ setupTableView()
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey)
         ]
         
-        switch selectedSport {
-        case .football:
-     
-            let presenter = CorePresenter<FootballLeagueProtocol, FootballLeagueRequest>(
-                vc: self,
-                apiUrl: ApiUrls.leaguesFootball,  // use the base URL without queries
-                queryItems: queryItems
-            ) { vc, response in
-                vc.renderToView(res: response)
-            }
-            presenter.getDataFromModel()
-            
-        case .basketball:
-            let presenter = CorePresenter<BasketballLeagueProtocol, BasketballLeagueRequest>(
-                vc: self,
-                apiUrl: ApiUrls.leaguesBasketball,
-                queryItems: queryItems
-            ) { vc, response in
-                vc.renderToView(res: response)
-            }
-            presenter.getDataFromModel()
-            
-        case .tennis:
-            let presenter = CorePresenter<TennisLeagueProtocol, TennisLeagueRequest>(
-                vc: self,
-                apiUrl: ApiUrls.leaguesTennis,
-                queryItems: queryItems
-            ) { vc, response in
-                vc.renderToView(res: response)
-            }
-            presenter.getDataFromModel()
-            
-        case .cricket:
-            let presenter = CorePresenter<CricketLeagueProtocol, CricketLeagueRequest>(
-                vc: self,
-                apiUrl: ApiUrls.leaguesCricket,
-                queryItems: queryItems
-            ) { vc, response in
-                vc.renderToView(res: response)
-            }
-            presenter.getDataFromModel()
+        let presenter = CorePresenter<SportsLeagueProtocol, SprortsLeagueResponse>(
+            vc: self,
+            apiUrl: ApiUrls.leaguesBasketball,
+            queryItems: queryItems
+        ) { vc, response in
+            vc.renderToView(res: response)
         }
+        presenter.getDataFromModel()
     }
 
 
@@ -91,18 +55,8 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
 
     }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch selectedSport {
-        case .football:
-            return footballLeagues.count
-        case .basketball:
-            return basketballLeagues.count
-        case .tennis:
-            return tennisLeagues.count
-        case .cricket:
-            return cricketLeagues.count
-        case .none:
-            return 0
-        }
+        return sportsLeague.count
+
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -110,21 +64,19 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         
         switch selectedSport {
         case .football:
-            let league = footballLeagues[indexPath.row]
+            let league = sportsLeague[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.loadImage(from: league.league_logo)
-
         case .basketball:
-            let league = basketballLeagues[indexPath.row]
+            let league = sportsLeague[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.image = UIImage(named: "basketball") 
         case .tennis:
-            let league = tennisLeagues[indexPath.row]
+            let league = sportsLeague[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.image = UIImage(named: "tennis")
-
         case .cricket:
-            let league = cricketLeagues[indexPath.row]
+            let league = sportsLeague[indexPath.row]
             cell.leaguesNameLabel.text = league.league_name
             cell.leaguesImageView.image = UIImage(named: "cricket")
         case .none:
@@ -135,30 +87,12 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
     }
-    
-    
 }
-
    //MARK: - Presenter Connection
-extension LeaguesViewController: FootballLeagueProtocol, BasketballLeagueProtocol, TennisLeagueProtocol, CricketLeagueProtocol {
+extension LeaguesViewController: SportsLeagueProtocol {
     
-    func renderToView(res: FootballLeagueRequest) {
-        footballLeagues = res.result
-        leaguesTableView.reloadData()
-    }
-
-    func renderToView(res: BasketballLeagueRequest) {
-        basketballLeagues = res.result
-        leaguesTableView.reloadData()
-    }
-
-    func renderToView(res: TennisLeagueRequest) {
-        tennisLeagues = res.result
-        leaguesTableView.reloadData()
-    }
-
-    func renderToView(res: CricketLeagueRequest) {
-        cricketLeagues = res.result
+    func renderToView(res: SprortsLeagueResponse) {
+        sportsLeague = res.result
         leaguesTableView.reloadData()
     }
 }

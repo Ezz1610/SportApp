@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FixturesRequest : Decodable{
+struct FixturesResponse : Decodable{
     var result : [Fixture]
     var success : Int
 }
@@ -23,7 +23,7 @@ struct Fixture: Decodable {
     let awayTeamKey: String
     let eventFinalResult: String
     let eventQuarter: String?
-    let eventStatus: String
+    let eventStatus: String // "event_status":"Finished" => latest || "event_status":"" => upcoming events
     let countryName: String
     let leagueName: String
     let leagueKey: String

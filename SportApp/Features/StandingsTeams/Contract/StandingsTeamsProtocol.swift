@@ -8,5 +8,5 @@
 import Foundation
 
 protocol StandingsTeamsProtocol{
-    func renderToView (res : StandingsTeamsRequest)
+    func renderToView (res : StandingsTeamsResponse)
 }
