@@ -39,6 +39,8 @@ class AppConstants {
         return calendar.date(byAdding: offset, to: firstDay) ?? firstDay
     }
 
+    
+    
     /// Helper: Formats a Date into "yy-MM-dd"
     static func formatDate(_ date: Date) -> String {
         let formatter = DateFormatter()

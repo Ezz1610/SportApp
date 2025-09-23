@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA210A352E82968300B624C3 /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA210A342E82968300B624C3 /* Team.swift */; };
 		AA2428192E79A94600E2B283 /* AnimatedLogoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA2428172E79A94600E2B283 /* AnimatedLogoViewController.swift */; };
 		AA24281A2E79A94600E2B283 /* AnimatedLogoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AA2428182E79A94600E2B283 /* AnimatedLogoViewController.xib */; };
 		AA24281E2E79AAC100E2B283 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA24281C2E79AAC100E2B283 /* HomeViewController.swift */; };
@@ -82,6 +83,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA210A342E82968300B624C3 /* Team.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Team.swift; sourceTree = "<group>"; };
 		AA2428172E79A94600E2B283 /* AnimatedLogoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedLogoViewController.swift; sourceTree = "<group>"; };
 		AA2428182E79A94600E2B283 /* AnimatedLogoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnimatedLogoViewController.xib; sourceTree = "<group>"; };
 		AA24281C2E79AAC100E2B283 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
@@ -413,6 +415,7 @@
 			isa = PBXGroup;
 			children = (
 				C318DEE82E7DF18C00CE7900 /* FixturesRequest.swift */,
+				AA210A342E82968300B624C3 /* Team.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -684,6 +687,7 @@
 				C38B09432E7AEB98002A5E2D /* TennisProtocol.swift in Sources */,
 				C3109B4A2E7F49B000933285 /* StandingsTeamsRequest.swift in Sources */,
 				C38B093D2E7AEB98002A5E2D /* BasketballProtocol.swift in Sources */,
+				AA210A352E82968300B624C3 /* Team.swift in Sources */,
 				C38B09612E7AFCFD002A5E2D /* TennisLeagueProtocol.swift in Sources */,
 				C38B09442E7AEB98002A5E2D /* NetworkService.swift in Sources */,
 				AA9101702E8047CF00AC2803 /* TeamsCollectionViewCell.swift in Sources */,

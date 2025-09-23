@@ -18,73 +18,156 @@ class FexturesViewController: UIViewController {
     var selectedSport: SportType?
     var leagueName: String?
     var leagueId: Int?
-    private var upcomingMatches = [Fixture]()
-    private var latestMatches = [Fixture]()
-  //  private var leagueTeams = [String]()
+    private var upcomingEvents = [Fixture]()
+    private var latestEvents = [Fixture]()
+    private var leagueTeams = [Team]()
     
-    // mock data
-    private let upcomingEvents = [
-           ("2023-06-10", "21:00", "Team A", "Team B", "UEFA"),
-           ("2023-06-12", "19:30", "Team C", "Team D", "UEFA"),
-           ("2023-06-15", "20:00", "Team I", "Team J", "UEFA"),
-           ("2023-06-18", "18:45", "Team K", "Team L", "UEFA")
-       ]
-       
-       private let latestEvents = [
-           ("2023-05-17", "21:00", "4", "0", "Team E", "Team F", "UEFA"),
-           ("2023-05-16", "21:00", "1", "0", "Team G", "Team H", "UEFA"),
-           ("2023-05-14", "19:30", "2", "2", "Team M", "Team N", "UEFA"),
-           ("2023-05-12", "20:00", "3", "1", "Team O", "Team P", "UEFA"),
-           ("2023-05-10", "18:45", "0", "0", "Team Q", "Team R", "UEFA")
-       ]
-       
-       private let leagueTeams = [
-           ("Premier League", "football"),
-           ("La Liga", "football"),
-           ("Serie A", "football"),
-           ("Bundesliga", "football"),
-           ("Ligue 1", "football")
-       ]
     
       //MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        fetchLeagueData()
         self.title = leagueName ?? "Fixtures"
     }
     
+       //MARK: - Behaviour
     
-
-        
-        //MARK: - Layout
     private func setupCollectionView() {
             fexturesCollectionView.collectionViewLayout = createLayout()
-            
-            // Register cells
             fexturesCollectionView.register(UINib(nibName: "FexturesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FexturesCell")
             fexturesCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "TeamCell")
-            
-            // Register header view
             fexturesCollectionView.register(
                 UICollectionReusableView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                 withReuseIdentifier: "HeaderView"
             )
-            
+        fexturesCollectionView.backgroundColor = .clear
             fexturesCollectionView.dataSource = self
             fexturesCollectionView.delegate = self
             fexturesCollectionView.reloadData()
         }
+    
+    private func fetchLeagueData() {
+           guard let sportType = selectedSport, let leagueId = leagueId else { return }
+           fetchUpcomingEvents(sportType: sportType, leagueId: leagueId)
+           fetchLatestEvents(sportType: sportType, leagueId: leagueId)
+
+       }
+    
+    // fetching upcoming and latest events methods
+    private func fetchUpcomingEvents(sportType: SportType, leagueId: Int) {
+        let fromDate = AppConstants.getNowDate()
+        let toDate = AppConstants.getLastDateOfCurrentMonth() ?? AppConstants.getNowDate()
         
-        //MARK: - Layout
-        func createLayout() -> UICollectionViewCompositionalLayout {
+        // same like previous one
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        let queryItems = [
+            URLQueryItem(name: "met", value: "Fixtures"),
+            URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
+            URLQueryItem(name: "from", value: formatter.string(from: fromDate)),
+            URLQueryItem(name: "to", value: formatter.string(from: toDate)),
+            URLQueryItem(name: "leagueId", value: "\(leagueId)")
+        ]
+        
+        var apiUrl = ""
+        switch sportType {
+        case .football:   apiUrl = ApiUrls.footballFixtures
+        case .basketball: apiUrl = ApiUrls.basketballFixtures
+        case .tennis:     apiUrl = ApiUrls.tennisFixtures
+        case .cricket:    apiUrl = ApiUrls.cricketFixtures
+        }
+        
+        let presenter = CorePresenter<FexturesViewController, FixturesRequest>(
+            vc: self,
+            apiUrl: apiUrl,
+            queryItems: queryItems
+        ) { vc, response in
+            vc.handleUpcomingEventsResponse(response)
+        }
+        presenter.getDataFromModel()
+    }
+
+    // Latest Events → first day of month until today
+    private func fetchLatestEvents(sportType: SportType, leagueId: Int) {
+        let fromDate = AppConstants.getFirstDateOfCurrentMonth()
+        let toDate = AppConstants.getNowDate()
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        let queryItems = [
+            URLQueryItem(name: "met", value: "Fixtures"),
+            URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
+            URLQueryItem(name: "from", value: formatter.string(from: fromDate!)),
+            URLQueryItem(name: "to", value: formatter.string(from: toDate)),
+            URLQueryItem(name: "leagueId", value: "\(leagueId)")
+        ]
+        
+        var apiUrl = ""
+        switch sportType {
+        case .football:   apiUrl = ApiUrls.latestEventsFootballFixtures
+        case .basketball: apiUrl = ApiUrls.latestEventsBasketballFixtures
+        case .tennis:     apiUrl = ApiUrls.latestEventsTennisFixtures
+        case .cricket:    apiUrl = ApiUrls.latestEventsCricketFixtures
+        }
+        
+        let presenter = CorePresenter<FexturesViewController, FixturesRequest>(
+            vc: self,
+            apiUrl: apiUrl,
+            queryItems: queryItems
+        ) { vc, response in
+            vc.handleLatestEventsResponse(response)
+        }
+        presenter.getDataFromModel()
+    }
+    
+    func handleUpcomingEventsResponse(_ response: FixturesRequest) {
+            upcomingEvents = response.result
+            extractTeamsFromFixtures()
+            fexturesCollectionView.reloadData()
+        }
+        
+        func handleLatestEventsResponse(_ response: FixturesRequest) {
+            latestEvents = response.result
+            extractTeamsFromFixtures()
+            fexturesCollectionView.reloadData()
+        }
+        
+    // for getting all teams from upcoming and latest matches
+    // not totally right !
+    // discuss
+    
+    private func extractTeamsFromFixtures() {
+        var teams = Set<Team>()
+
+        for fixture in upcomingEvents {
+            teams.insert(Team(name: fixture.eventHomeTeam, logo: fixture.homeTeamLogo))
+            teams.insert(Team(name: fixture.eventAwayTeam, logo: fixture.awayTeamLogo))
+        }
+
+        for fixture in latestEvents {
+            teams.insert(Team(name: fixture.eventHomeTeam, logo: fixture.homeTeamLogo))
+            teams.insert(Team(name: fixture.eventAwayTeam, logo: fixture.awayTeamLogo))
+        }
+
+        leagueTeams = Array(teams)
+    }
+    
+    
+
+
+           //MARK: - Compositional CollectionView Methods
+    func createLayout() -> UICollectionViewCompositionalLayout {
             let layout = UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
                 switch sectionIndex {
-                case 0: // Upcoming Events - Horizontal paging
+                case 0:
                     return self.createHorizontalPagingSection()
-                case 1: // Latest Events - Vertical scrolling
+                case 1:
                     return self.createVerticalScrollingSection()
-                case 2: // League Teams - Grid
+                case 2:
                     return self.createTeamsSection()
                 default:
                     return nil
@@ -98,225 +181,302 @@ class FexturesViewController: UIViewController {
             return layout
         }
         
-    private func createHorizontalPagingSection() -> NSCollectionLayoutSection {
-           // Item
-           let itemSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .fractionalHeight(1.0)
-           )
-           let item = NSCollectionLayoutItem(layoutSize: itemSize)
-
-           let groupSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(0.9), // Slightly less than full width for paging effect
-               heightDimension: .absolute(160)
-           )
-           let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-           
-           // Section - Horizontal paging
-           let section = NSCollectionLayoutSection(group: group)
-           section.orthogonalScrollingBehavior = .groupPaging // This enables horizontal paging
-           section.interGroupSpacing = 15
-           section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
-           
-           // Header
-           let headerSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .absolute(50)
-           )
-           let header = NSCollectionLayoutBoundarySupplementaryItem(
-               layoutSize: headerSize,
-               elementKind: UICollectionView.elementKindSectionHeader,
-               alignment: .top
-           )
-           section.boundarySupplementaryItems = [header]
-           
-           return section
-       }
-       
-       private func createVerticalScrollingSection() -> NSCollectionLayoutSection {
-           // Item
-           let itemSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .fractionalHeight(1.0)
-           )
-           let item = NSCollectionLayoutItem(layoutSize: itemSize)
-           
-           // Group - Full width for vertical scrolling
-           let groupSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .absolute(120)
-           )
-           let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-           
-           // Section - Vertical scrolling (default behavior)
-           let section = NSCollectionLayoutSection(group: group)
-           section.interGroupSpacing = 15
-           section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
-           
-           // Header
-           let headerSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .absolute(50)
-           )
-           let header = NSCollectionLayoutBoundarySupplementaryItem(
-               layoutSize: headerSize,
-               elementKind: UICollectionView.elementKindSectionHeader,
-               alignment: .top
-           )
-           section.boundarySupplementaryItems = [header]
-           
-           return section
-       }
-       
-       private func createTeamsSection() -> NSCollectionLayoutSection {
-           // Item
-           let itemSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(0.3),
-               heightDimension: .fractionalHeight(1.0)
-           )
-           let item = NSCollectionLayoutItem(layoutSize: itemSize)
-           item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-           
-           // Group
-           let groupSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .absolute(150)
-           )
-           let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
-           
-           // Section
-           let section = NSCollectionLayoutSection(group: group)
-           section.interGroupSpacing = 10
-           section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
-           
-           // Header
-           let headerSize = NSCollectionLayoutSize(
-               widthDimension: .fractionalWidth(1.0),
-               heightDimension: .absolute(50)
-           )
-           let header = NSCollectionLayoutBoundarySupplementaryItem(
-               layoutSize: headerSize,
-               elementKind: UICollectionView.elementKindSectionHeader,
-               alignment: .top
-           )
-           section.boundarySupplementaryItems = [header]
-           
-           return section
-       }
-   }
-
-extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch section {
-        case 0: return upcomingEvents.count
-        case 1: return latestEvents.count
-        case 2: return leagueTeams.count
-        default: return 0
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch indexPath.section {
-        case 0: // Upcoming Events
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FexturesCell", for: indexPath) as! FexturesCollectionViewCell
-            
-            let event = upcomingEvents[indexPath.item]
-            
-            // Configure cell for upcoming event (no scores)
-            cell.matchDateLabel.text = event.0
-            cell.matchTimeLabel.text = event.1
-            cell.resultLabel.text = "VS" // Show "VS" for upcoming matches
-            cell.firstTeamLeagueNameLabel.text = event.4 // League name
-            cell.secondTeamLeagueNameLabel.text = event.4 // League name
-            cell.firstTeamImageView.image = UIImage(named: "football")
-            cell.secondTeamImageView.image = UIImage(named: "football")
-            
-            return cell
-            
-        case 1: // Latest Events
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FexturesCell", for: indexPath) as! FexturesCollectionViewCell
-            
-            let event = latestEvents[indexPath.item]
-            
-            // Configure cell for latest event (with scores)
-            cell.matchDateLabel.text = event.0
-            cell.matchTimeLabel.text = event.1
-            cell.resultLabel.text = "\(event.2) - \(event.3)" // Show actual score
-            cell.firstTeamLeagueNameLabel.text = event.6 // League name
-            cell.secondTeamLeagueNameLabel.text = event.6 // League name
-            cell.firstTeamImageView.image = UIImage(named: "football")
-            cell.secondTeamImageView.image = UIImage(named: "football")
-            
-            return cell
-            
-        case 2: // Teams section
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCell", for: indexPath)
-            
-            let team = leagueTeams[indexPath.item]
-            
-            // Remove any existing subviews
-            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-            
-            // Create a simple team view
-            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: cell.bounds.width, height: cell.bounds.height - 30))
-            imageView.contentMode = .scaleAspectFit
-            imageView.image = UIImage(named: team.1)
-            imageView.backgroundColor = .lightGray
-            imageView.layer.cornerRadius = 8
-            
-            let label = UILabel(frame: CGRect(x: 0, y: cell.bounds.height - 30, width: cell.bounds.width, height: 30))
-            label.text = team.0
-            label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 12)
-            label.numberOfLines = 2
-            
-            cell.contentView.addSubview(imageView)
-            cell.contentView.addSubview(label)
-            
-            return cell
-            
-        default:
-            return UICollectionViewCell()
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        if kind == UICollectionView.elementKindSectionHeader {
-            let header = collectionView.dequeueReusableSupplementaryView(
-                ofKind: kind,
-                withReuseIdentifier: "HeaderView",
-                for: indexPath
+    // first section which stands for upcoming events
+        private func createHorizontalPagingSection() -> NSCollectionLayoutSection {
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
             )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.9),
+                heightDimension: .absolute(170)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
-            // Remove any existing subviews
-            header.subviews.forEach { $0.removeFromSuperview() }
+            let section = NSCollectionLayoutSection(group: group)
+            section.orthogonalScrollingBehavior = .groupPagingCentered
+            section.interGroupSpacing = 16
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
             
-            // Set background color
-            header.backgroundColor = .systemBackground
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(30)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            section.boundarySupplementaryItems = [header]
             
-            let label = UILabel(frame: CGRect(x: 16, y: 0, width: header.bounds.width - 32, height: header.bounds.height))
-            label.font = UIFont.boldSystemFont(ofSize: 18)
-            label.textAlignment = .left
-            
-            switch indexPath.section {
-            case 0:
-                label.text = "Upcoming Events"
-            case 1:
-                label.text = "Latest Events"
-            case 2:
-                label.text = "League Teams"
-            default:
-                label.text = ""
-            }
-            
-            header.addSubview(label)
-            return header
+            return section
         }
         
-        return UICollectionReusableView()
+    // handling latest events
+        private func createVerticalScrollingSection() -> NSCollectionLayoutSection {
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(130)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 16
+            section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+            
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(30)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            section.boundarySupplementaryItems = [header]
+            
+            return section
+        }
+        
+    // teams section
+        private func createTeamsSection() -> NSCollectionLayoutSection {
+            let itemSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(0.3),
+                heightDimension: .fractionalHeight(1.0)
+            )
+            let item = NSCollectionLayoutItem(layoutSize: itemSize)
+            item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
+            
+            let groupSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(160)
+            )
+            let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
+            
+            
+            let section = NSCollectionLayoutSection(group: group)
+            section.interGroupSpacing = 10
+            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+            section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
+            
+            let headerSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(30)
+            )
+            let header = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerSize,
+                elementKind: UICollectionView.elementKindSectionHeader,
+                alignment: .top
+            )
+            section.boundarySupplementaryItems = [header]
+            
+            return section
+        }
     }
-}
+
+    //MARK: - UICollectionView DataSource & Delegate
+    extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+        
+        func numberOfSections(in collectionView: UICollectionView) -> Int {
+            return 3
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+            switch section {
+            case 0: return upcomingEvents.count
+            case 1: return latestEvents.count
+            case 2: return leagueTeams.count
+            default: return 0
+            }
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+            switch indexPath.section {
+            case 0:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FexturesCell", for: indexPath) as! FexturesCollectionViewCell
+                configureUpcomingEventCell(cell, at: indexPath)
+                return cell
+                
+            case 1:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "FexturesCell", for: indexPath) as! FexturesCollectionViewCell
+                configureLatestEventCell(cell, at: indexPath)
+                return cell
+                
+            case 2:
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCell", for: indexPath)
+                configureTeamCell(cell, at: indexPath)
+                return cell
+                
+            default:
+                return UICollectionViewCell()
+            }
+        }
+        
+        private func configureFixtureCell(
+            _ cell: FexturesCollectionViewCell,
+            with fixture: Fixture,
+            isUpcoming: Bool
+        ) {
+            cell.matchDateLabel.text = fixture.eventDate
+            cell.matchTimeLabel.text = fixture.eventTime
+            cell.firstTeamLeagueNameLabel.text = fixture.eventHomeTeam
+            cell.secondTeamLeagueNameLabel.text = fixture.eventAwayTeam
+
+            cell.resultLabel.text = isUpcoming
+                ? " "
+            : (((fixture.eventFinalResult?.isEmpty) != nil) ? "TBD" : fixture.eventFinalResult)
+
+            cell.firstTeamImageView.loadImage(from: fixture.homeTeamLogo,
+                                              placeholder: UIImage(named: "football"))
+            cell.secondTeamImageView.loadImage(from: fixture.awayTeamLogo,
+                                               placeholder: UIImage(named: "football"))
+
+            configureTextColors(for: cell)
+            cell.containerView.layer.borderWidth = 1
+            cell.containerView.layer.borderColor = (isUpcoming ? UIColor.systemGray4 : UIColor.systemGreen).cgColor
+            cell.containerView.backgroundColor = .systemBackground
+        }
+        private func configureUpcomingEventCell(_ cell: FexturesCollectionViewCell, at indexPath: IndexPath) {
+            guard indexPath.item < upcomingEvents.count else { return }
+            let fixture = upcomingEvents[indexPath.item]
+            configureFixtureCell(cell, with: fixture, isUpcoming: true)
+        }
+
+        private func configureLatestEventCell(_ cell: FexturesCollectionViewCell, at indexPath: IndexPath) {
+            guard indexPath.item < latestEvents.count else { return }
+            let fixture = latestEvents[indexPath.item]
+            configureFixtureCell(cell, with: fixture, isUpcoming: false)
+        }
+        
+        private func configureTextColors(for cell: FexturesCollectionViewCell) {
+            let primaryTextColor = UIColor.white
+            let secondaryTextColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1.0)
+            let accentColor = UIColor(red: 1.0, green: 0.8, blue: 0.0, alpha: 1.0)
+            
+            cell.firstTeamLeagueNameLabel.textColor = primaryTextColor
+            cell.secondTeamLeagueNameLabel.textColor = primaryTextColor
+            cell.resultLabel.textColor = accentColor
+            cell.matchDateLabel.textColor = secondaryTextColor
+            cell.matchTimeLabel.textColor = secondaryTextColor
+        }
+        
+        // standalone cell , not shared with other sections
+        
+        private func configureTeamCell(_ cell: UICollectionViewCell, at indexPath: IndexPath) {
+            guard indexPath.item < leagueTeams.count else { return }
+
+            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
+            cell.contentView.layer.cornerRadius = 12
+
+            let team = leagueTeams[indexPath.item]
+
+            let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: cell.bounds.width - 20, height: cell.bounds.height - 50))
+            imageView.contentMode = .scaleAspectFit
+            imageView.layer.cornerRadius = 8
+            imageView.clipsToBounds = true
+            imageView.backgroundColor = .systemGray6
+            imageView.loadImage(from: team.logo, placeholder: UIImage(named: "football"))
+
+            let label = UILabel(frame: CGRect(x: 10, y: cell.bounds.height - 40, width: cell.bounds.width - 20, height: 30))
+            label.text = team.name
+            label.textAlignment = .center
+            label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+            label.numberOfLines = 2
+            label.adjustsFontSizeToFitWidth = true
+
+            cell.contentView.addSubview(imageView)
+            cell.contentView.addSubview(label)
+        }
+
+        
+        func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+            if kind == UICollectionView.elementKindSectionHeader {
+                let header = collectionView.dequeueReusableSupplementaryView(
+                    ofKind: kind,
+                    withReuseIdentifier: "HeaderView",
+                    for: indexPath
+                )
+                
+                header.subviews.forEach { $0.removeFromSuperview() }
+                header.backgroundColor = .systemBackground
+                
+                let label = UILabel(frame: CGRect(x: 16, y: 0, width: header.bounds.width - 32, height: header.bounds.height))
+                label.font = UIFont.boldSystemFont(ofSize: 20)
+                label.textAlignment = .left
+                label.textColor = .label
+                
+                switch indexPath.section {
+                case 0:
+                    label.text = "Upcoming Events (\(upcomingEvents.count))"
+                case 1:
+                    label.text = "Latest Events (\(latestEvents.count))"
+                case 2:
+                    label.text = "League Teams (\(leagueTeams.count))"
+                default:
+                    label.text = ""
+                }
+                
+                header.addSubview(label)
+                return header
+            }
+            
+            return UICollectionReusableView()
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+            switch indexPath.section {
+            case 0 where indexPath.item < upcomingEvents.count:
+                let fixture = upcomingEvents[indexPath.item]
+                showFixtureDetail(fixture, isUpcoming: true)
+                
+            case 1 where indexPath.item < latestEvents.count:
+                let fixture = latestEvents[indexPath.item]
+                showFixtureDetail(fixture, isUpcoming: false)
+                
+            case 2 where indexPath.item < leagueTeams.count:
+                let teamName = leagueTeams[indexPath.item]
+                showTeamDetail(teamName.name)
+                
+            default:
+                break
+            }
+        }
+        
+           //MARK: - Alerts showing functions 
+        
+        private func showFixtureDetail(_ fixture: Fixture, isUpcoming: Bool) {
+            let alert = UIAlertController(
+                title: "\(fixture.eventHomeTeam) vs \(fixture.eventAwayTeam)",
+                message: """
+                Date: \(fixture.eventDate)
+                Time: \(fixture.eventTime)
+                \(isUpcoming ? "Status: Upcoming" : "Result: \(fixture.eventFinalResult)")
+                League: \(fixture.leagueName)
+                """,
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+        
+        private func showTeamDetail(_ teamName: String) {
+            let alert = UIAlertController(
+                title: teamName,
+                message: "Team details will be shown here",
+                preferredStyle: .alert
+            )
+            
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
+            present(alert, animated: true)
+        }
+    }
+
