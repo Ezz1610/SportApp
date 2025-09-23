@@ -6,6 +6,6 @@
 //
 
 import Foundation
-protocol BasketballLeagueProtocol{
-    func renderToView (res : BasketballLeagueRequest)
+protocol SportsLeagueProtocol{
+    func renderToView (res : SprortsLeagueResponse)
 }

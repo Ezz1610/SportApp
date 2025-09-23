@@ -7,5 +7,5 @@
 
 import Foundation
 protocol FixturesProtocol{
-    func renderToView (res : FixturesRequest)
+    func renderToView (res : FixturesResponse)
 }
