@@ -31,10 +31,21 @@ setupTableView()
             URLQueryItem(name: "met", value: "Leagues"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey)
         ]
+        let apiUrl: String
+            switch selectedSport {
+            case .football:
+                apiUrl = ApiUrls.leaguesFootball
+            case .basketball:
+                apiUrl = ApiUrls.leaguesBasketball
+            case .tennis:
+                apiUrl = ApiUrls.leaguesTennis
+            case .cricket:
+                apiUrl = ApiUrls.leaguesCricket
+            }
         
         let presenter = CorePresenter<SportsLeagueProtocol, SprortsLeagueResponse>(
             vc: self,
-            apiUrl: ApiUrls.leaguesBasketball,
+            apiUrl: apiUrl,
             queryItems: queryItems
         ) { vc, response in
             vc.renderToView(res: response)
@@ -61,29 +72,42 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leaguesCell", for: indexPath) as! LeaguesTableViewCell
+        let league = sportsLeague[indexPath.row]
+        cell.leaguesNameLabel.text = league.league_name
         
-        switch selectedSport {
-        case .football:
-            let league = sportsLeague[indexPath.row]
-            cell.leaguesNameLabel.text = league.league_name
-            cell.leaguesImageView.loadImage(from: league.league_logo)
-        case .basketball:
-            let league = sportsLeague[indexPath.row]
-            cell.leaguesNameLabel.text = league.league_name
-            cell.leaguesImageView.image = UIImage(named: "basketball") 
-        case .tennis:
-            let league = sportsLeague[indexPath.row]
-            cell.leaguesNameLabel.text = league.league_name
-            cell.leaguesImageView.image = UIImage(named: "tennis")
-        case .cricket:
-            let league = sportsLeague[indexPath.row]
-            cell.leaguesNameLabel.text = league.league_name
-            cell.leaguesImageView.image = UIImage(named: "cricket")
-        case .none:
-            break
-        }
+        
+        if let logoUrl = league.league_logo, !logoUrl.isEmpty {
+                cell.leaguesImageView.loadImage(from: logoUrl)
+            } else {
+                switch selectedSport {
+                case .football:
+                    cell.leaguesImageView.image = UIImage(named: "unknownLeague")
+                case .basketball:
+                    cell.leaguesImageView.image = UIImage(named: "basketball")
+                case .tennis:
+                    cell.leaguesImageView.image = UIImage(named: "tennis")
+                case .cricket:
+                    cell.leaguesImageView.image = UIImage(named: "cricket")
+                case .none:
+                    cell.leaguesImageView.image = UIImage(named: "unknownLeague")
+                }
+            }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let league = sportsLeague[indexPath.row]
+        let fixturesVC = FexturesViewController(nibName: "FexturesViewController", bundle: nil)
+        
+        fixturesVC.selectedSport = selectedSport
+        fixturesVC.leagueName = league.league_name
+        fixturesVC.leagueId = league.league_key
+        
+        navigationController?.pushViewController(fixturesVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         70
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct FixturesRequest : Decodable{
+struct FixturesResponse : Decodable{
     var result : [Fixture]
     var success : Int
 }

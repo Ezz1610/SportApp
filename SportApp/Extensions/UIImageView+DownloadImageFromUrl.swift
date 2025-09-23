@@ -2,9 +2,10 @@
 //  UIImageView+DownloadImageFromUrl.swift
 //  SportApp
 //
-//  Created by Nafea Elkassas on 18/09/2025.
+//  Created by Nafea Elkassas on 23/09/2025.
 //
 
+import Foundation
 import UIKit
 extension UIImageView {
     func loadImage(from urlString: String?, placeholder: UIImage? = UIImage(named: "unknownLeague")) {

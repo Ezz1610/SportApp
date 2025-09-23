@@ -20,7 +20,7 @@ class FexturesViewController: UIViewController {
     var leagueId: Int?
     private var upcomingEvents = [Fixture]()
     private var latestEvents = [Fixture]()
-    private var leagueTeams = [Team]()
+    private var leagueTeams = [Standing]()
     
     
       //MARK: - LifeCycle
@@ -36,7 +36,7 @@ class FexturesViewController: UIViewController {
     private func setupCollectionView() {
             fexturesCollectionView.collectionViewLayout = createLayout()
             fexturesCollectionView.register(UINib(nibName: "FexturesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FexturesCell")
-            fexturesCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "TeamCell")
+        fexturesCollectionView.register(UINib(nibName: "TeamsCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "TeamCell")
             fexturesCollectionView.register(
                 UICollectionReusableView.self,
                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -52,6 +52,7 @@ class FexturesViewController: UIViewController {
            guard let sportType = selectedSport, let leagueId = leagueId else { return }
            fetchUpcomingEvents(sportType: sportType, leagueId: leagueId)
            fetchLatestEvents(sportType: sportType, leagueId: leagueId)
+        fetchStandings(sportType: sportType, leagueId: leagueId)
 
        }
     
@@ -80,7 +81,7 @@ class FexturesViewController: UIViewController {
         case .cricket:    apiUrl = ApiUrls.cricketFixtures
         }
         
-        let presenter = CorePresenter<FexturesViewController, FixturesRequest>(
+        let presenter = CorePresenter<FexturesViewController, FixturesResponse>(
             vc: self,
             apiUrl: apiUrl,
             queryItems: queryItems
@@ -91,17 +92,25 @@ class FexturesViewController: UIViewController {
     }
 
     // Latest Events → first day of month until today
+    // from 2025-09-01 -> 2025-09-14
+    // make functon returns this
     private func fetchLatestEvents(sportType: SportType, leagueId: Int) {
-        let fromDate = AppConstants.getFirstDateOfCurrentMonth()
-        let toDate = AppConstants.getNowDate()
+        let fromDate = AppConstants.getDate13DaysAgo() // 13 days ago
+        let toDate = AppConstants.getYesterdaysDate()  // Yesterday
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         
+        // DEBUG: Print the dates to see what's being requested
+        print("Latest Events Date Range:")
+        print("From: \(formatter.string(from: fromDate))")
+        print("To: \(formatter.string(from: toDate))")
+        print("Today: \(formatter.string(from: Date()))")
+        
         let queryItems = [
             URLQueryItem(name: "met", value: "Fixtures"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
-            URLQueryItem(name: "from", value: formatter.string(from: fromDate!)),
+            URLQueryItem(name: "from", value: formatter.string(from: fromDate)),
             URLQueryItem(name: "to", value: formatter.string(from: toDate)),
             URLQueryItem(name: "leagueId", value: "\(leagueId)")
         ]
@@ -114,7 +123,7 @@ class FexturesViewController: UIViewController {
         case .cricket:    apiUrl = ApiUrls.latestEventsCricketFixtures
         }
         
-        let presenter = CorePresenter<FexturesViewController, FixturesRequest>(
+        let presenter = CorePresenter<FexturesViewController, FixturesResponse>(
             vc: self,
             apiUrl: apiUrl,
             queryItems: queryItems
@@ -124,37 +133,57 @@ class FexturesViewController: UIViewController {
         presenter.getDataFromModel()
     }
     
-    func handleUpcomingEventsResponse(_ response: FixturesRequest) {
-            upcomingEvents = response.result
-            extractTeamsFromFixtures()
-            fexturesCollectionView.reloadData()
+    private func fetchStandings(sportType: SportType, leagueId: Int) {
+        let queryItems = [
+            URLQueryItem(name: "met", value: "Standings"),
+            URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
+            URLQueryItem(name: "leagueId", value: "\(leagueId)")
+        ]
+        
+        var apiUrl = ""
+        switch sportType {
+        case .football:   apiUrl = ApiUrls.football
+        case .basketball: apiUrl = ApiUrls.basketball
+        case .tennis:     apiUrl = ApiUrls.tennis
+        case .cricket:    apiUrl = ApiUrls.cricket
         }
         
-        func handleLatestEventsResponse(_ response: FixturesRequest) {
-            latestEvents = response.result
-            extractTeamsFromFixtures()
-            fexturesCollectionView.reloadData()
+        let presenter = CorePresenter<FexturesViewController, StandingsTeamsResponse>(
+            vc: self,
+            apiUrl: apiUrl,
+            queryItems: queryItems
+        ) { vc, response in
+            vc.handleStandingsResponse(response)
         }
-        
-    // for getting all teams from upcoming and latest matches
-    // not totally right !
-    // discuss
-    
-    private func extractTeamsFromFixtures() {
-        var teams = Set<Team>()
-
-        for fixture in upcomingEvents {
-            teams.insert(Team(name: fixture.eventHomeTeam, logo: fixture.homeTeamLogo))
-            teams.insert(Team(name: fixture.eventAwayTeam, logo: fixture.awayTeamLogo))
-        }
-
-        for fixture in latestEvents {
-            teams.insert(Team(name: fixture.eventHomeTeam, logo: fixture.homeTeamLogo))
-            teams.insert(Team(name: fixture.eventAwayTeam, logo: fixture.awayTeamLogo))
-        }
-
-        leagueTeams = Array(teams)
+        presenter.getDataFromModel()
     }
+    
+    func handleStandingsResponse(_ response: StandingsTeamsResponse){
+        leagueTeams = response.result.total
+        
+        fexturesCollectionView.reloadData()
+    }
+    
+    func handleUpcomingEventsResponse(_ response: FixturesResponse) {
+            upcomingEvents = response.result
+            fexturesCollectionView.reloadData()
+        }
+        
+    func handleLatestEventsResponse(_ response: FixturesResponse) {
+        latestEvents = response.result
+        
+        // DEBUG: Print what we received
+        print("Latest events received: \(latestEvents.count) matches")
+        for fixture in latestEvents.prefix(3) { // Print first 3 fixtures
+            print("Match: \(fixture.eventHomeTeam ?? "") vs \(fixture.eventAwayTeam ?? "")")
+            print("Date: \(fixture.eventDate ?? "")")
+            print("Result: \(fixture.eventFinalResult ?? "nil")")
+            print("---")
+        }
+        
+        fexturesCollectionView.reloadData()
+    }
+
     
     
 
@@ -249,7 +278,7 @@ class FexturesViewController: UIViewController {
     // teams section
         private func createTeamsSection() -> NSCollectionLayoutSection {
             let itemSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(0.3),
+                widthDimension: .fractionalWidth(1),
                 heightDimension: .fractionalHeight(1.0)
             )
             let item = NSCollectionLayoutItem(layoutSize: itemSize)
@@ -257,14 +286,14 @@ class FexturesViewController: UIViewController {
             
             let groupSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(160)
+                heightDimension: .absolute(180)
             )
             let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
             
             
             let section = NSCollectionLayoutSection(group: group)
-            section.interGroupSpacing = 10
-            section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+           // section.interGroupSpacing = 10
+            section.orthogonalScrollingBehavior = .groupPagingCentered
             section.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 8, bottom: 8, trailing: 8)
             
             let headerSize = NSCollectionLayoutSize(
@@ -312,7 +341,7 @@ class FexturesViewController: UIViewController {
                 
             case 2:
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TeamCell", for: indexPath)
-                configureTeamCell(cell, at: indexPath)
+                configureTeamCell(cell as! TeamsCollectionViewCell, at: indexPath)
                 return cell
                 
             default:
@@ -325,14 +354,21 @@ class FexturesViewController: UIViewController {
             with fixture: Fixture,
             isUpcoming: Bool
         ) {
-            cell.matchDateLabel.text = fixture.eventDate
+            cell.matchDateLabel.text = AppConstants.formatMatchDate(fixture.eventDate)
+            
             cell.matchTimeLabel.text = fixture.eventTime
             cell.firstTeamLeagueNameLabel.text = fixture.eventHomeTeam
             cell.secondTeamLeagueNameLabel.text = fixture.eventAwayTeam
-
-            cell.resultLabel.text = isUpcoming
-                ? " "
-            : (((fixture.eventFinalResult?.isEmpty) != nil) ? "TBD" : fixture.eventFinalResult)
+            
+            if isUpcoming {
+                cell.resultLabel.text = ""
+            } else {
+                if let finalResult = fixture.eventFinalResult, !finalResult.isEmpty {
+                    cell.resultLabel.text = finalResult
+                } else {
+                    cell.resultLabel.text = "Unknown"
+                }
+            }
 
             cell.firstTeamImageView.loadImage(from: fixture.homeTeamLogo,
                                               placeholder: UIImage(named: "football"))
@@ -344,6 +380,7 @@ class FexturesViewController: UIViewController {
             cell.containerView.layer.borderColor = (isUpcoming ? UIColor.systemGray4 : UIColor.systemGreen).cgColor
             cell.containerView.backgroundColor = .systemBackground
         }
+        
         private func configureUpcomingEventCell(_ cell: FexturesCollectionViewCell, at indexPath: IndexPath) {
             guard indexPath.item < upcomingEvents.count else { return }
             let fixture = upcomingEvents[indexPath.item]
@@ -370,32 +407,18 @@ class FexturesViewController: UIViewController {
         
         // standalone cell , not shared with other sections
         
-        private func configureTeamCell(_ cell: UICollectionViewCell, at indexPath: IndexPath) {
+        private func configureTeamCell(_ cell: TeamsCollectionViewCell, at indexPath: IndexPath) {
             guard indexPath.item < leagueTeams.count else { return }
-
-            cell.contentView.subviews.forEach { $0.removeFromSuperview() }
-            cell.contentView.layer.cornerRadius = 12
-
-            let team = leagueTeams[indexPath.item]
-
-            let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: cell.bounds.width - 20, height: cell.bounds.height - 50))
-            imageView.contentMode = .scaleAspectFit
-            imageView.layer.cornerRadius = 8
-            imageView.clipsToBounds = true
-            imageView.backgroundColor = .systemGray6
-            imageView.loadImage(from: team.logo, placeholder: UIImage(named: "football"))
-
-            let label = UILabel(frame: CGRect(x: 10, y: cell.bounds.height - 40, width: cell.bounds.width - 20, height: 30))
-            label.text = team.name
-            label.textAlignment = .center
-            label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            label.numberOfLines = 2
-            label.adjustsFontSizeToFitWidth = true
-
-            cell.contentView.addSubview(imageView)
-            cell.contentView.addSubview(label)
+            
+            let standing = leagueTeams[indexPath.item]
+            
+            let position = standing.standingPlace ?? 0
+            let teamName = standing.standingTeam ?? "Unknown Team"
+            let logoUrl = standing.teamLogo ?? ""
+            
+            cell.teamsNameLabel.text = "\(position). \(teamName)"
+            cell.teamsImageView.loadImage(from: logoUrl, placeholder: UIImage(named: "football"))
         }
-
         
         func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
             if kind == UICollectionView.elementKindSectionHeader {
@@ -417,9 +440,13 @@ class FexturesViewController: UIViewController {
                 case 0:
                     label.text = "Upcoming Events (\(upcomingEvents.count))"
                 case 1:
-                    label.text = "Latest Events (\(latestEvents.count))"
+                    if latestEvents.isEmpty {
+                        label.text = "No Recent Matches"
+                    } else {
+                        label.text = "Latest Events (\(latestEvents.count))"
+                    }
                 case 2:
-                    label.text = "League Teams (\(leagueTeams.count))"
+                    label.text = "League Standings (\(leagueTeams.count))"
                 default:
                     label.text = ""
                 }
@@ -443,14 +470,14 @@ class FexturesViewController: UIViewController {
                 
             case 2 where indexPath.item < leagueTeams.count:
                 let teamName = leagueTeams[indexPath.item]
-                showTeamDetail(teamName.name)
+                showTeamDetail(teamName.standingTeam ?? "Unknown Team")
                 
             default:
                 break
             }
         }
         
-           //MARK: - Alerts showing functions 
+           //MARK: - Helper and  Alerts showing functions
         
         private func showFixtureDetail(_ fixture: Fixture, isUpcoming: Bool) {
             let alert = UIAlertController(
@@ -468,6 +495,7 @@ class FexturesViewController: UIViewController {
             present(alert, animated: true)
         }
         
+        // will be replaced with real team data
         private func showTeamDetail(_ teamName: String) {
             let alert = UIAlertController(
                 title: teamName,
@@ -478,5 +506,7 @@ class FexturesViewController: UIViewController {
             alert.addAction(UIAlertAction(title: "OK", style: .default))
             present(alert, animated: true)
         }
+        
+
     }
 

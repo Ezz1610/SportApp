@@ -33,6 +33,7 @@ class FexturesCollectionViewCell: UICollectionViewCell {
        override func layoutSubviews() {
            super.layoutSubviews()
            updateCornerRadius()
+           fixLabelConstraints()
        }
        
        private func setupCell() {
@@ -54,7 +55,6 @@ class FexturesCollectionViewCell: UICollectionViewCell {
            pitchImageView.layer.masksToBounds = true
        }
     
-    // for no events  
     func configureAsPlaceholder(message: String, imageName: String) {
     firstTeamImageView.isHidden = true
     secondTeamImageView.isHidden = true
@@ -67,9 +67,7 @@ class FexturesCollectionViewCell: UICollectionViewCell {
     pitchImageView.image = UIImage(named: imageName)
 }
     
-    // Add this to FexturesCollectionViewCell
     func resetForNormalContent() {
-        // Show all normal UI elements
         firstTeamImageView.isHidden = false
         secondTeamImageView.isHidden = false
         firstTeamLeagueNameLabel.isHidden = false
@@ -78,16 +76,30 @@ class FexturesCollectionViewCell: UICollectionViewCell {
         matchDateLabel.isHidden = false
         matchTimeLabel.isHidden = false
         
-        // Reset any placeholder styling
         pitchImageView.isHidden = false
-        pitchImageView.contentMode = .scaleAspectFill // Reset to original
-        pitchImageView.alpha = 1.0 // Reset opacity
-        
-        // Hide placeholder label if you added one
-        // placeholderLabel.isHidden = true
-        
-        // Reset container styling
+        pitchImageView.contentMode = .scaleAspectFill
+        pitchImageView.alpha = 1.0
+
         containerView.layer.borderWidth = 1
         containerView.backgroundColor = .systemBackground
+    }
+    
+    // for solving shrinking date and time labels
+    private func fixLabelConstraints() {
+        matchDateLabel.translatesAutoresizingMaskIntoConstraints = false
+        matchTimeLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        matchDateLabel.numberOfLines = 1
+        matchDateLabel.lineBreakMode = .byTruncatingTail
+        matchDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        matchDateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        
+        matchTimeLabel.numberOfLines = 1
+        matchTimeLabel.lineBreakMode = .byTruncatingTail
+        matchTimeLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        matchTimeLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        if let dateTimeStackView = matchDateLabel.superview as? UIStackView {
+            dateTimeStackView.spacing = 8
+        }
     }
 }
