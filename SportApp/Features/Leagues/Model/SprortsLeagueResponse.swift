@@ -17,6 +17,6 @@ struct League : Decodable{
     var country_key : Int
     var country_name : String
     var league_surface : String?
-let league_logo: String?
+    let league_logo: String?
 
 }
