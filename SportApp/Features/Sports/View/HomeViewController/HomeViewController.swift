@@ -77,12 +77,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
            switch indexPath.item {
            case 0:
                leaguesVC.selectedSport = .football
+               leaguesVC.sportName = "Football"
            case 1:
                leaguesVC.selectedSport = .basketball
+               leaguesVC.sportName = "Basket Ball"
            case 2:
                leaguesVC.selectedSport = .tennis
+               leaguesVC.sportName = "Tennis"
            case 3:
                leaguesVC.selectedSport = .cricket
+               leaguesVC.sportName = "Cricket"
            default:
                break
            }

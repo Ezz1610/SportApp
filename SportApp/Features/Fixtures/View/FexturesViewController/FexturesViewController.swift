@@ -33,6 +33,14 @@ class FexturesViewController: UIViewController {
     
        //MARK: - Behaviour
     
+    private func setupUI(){
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
+        
+    }
+    @objc func makeLeagueFavourite(){
+        
+    }
+    
     private func setupCollectionView() {
             fexturesCollectionView.collectionViewLayout = createLayout()
             fexturesCollectionView.register(UINib(nibName: "FexturesCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: "FexturesCell")
@@ -171,16 +179,6 @@ class FexturesViewController: UIViewController {
         
     func handleLatestEventsResponse(_ response: FixturesResponse) {
         latestEvents = response.result
-        
-        // DEBUG: Print what we received
-        print("Latest events received: \(latestEvents.count) matches")
-        for fixture in latestEvents.prefix(3) { // Print first 3 fixtures
-            print("Match: \(fixture.eventHomeTeam ?? "") vs \(fixture.eventAwayTeam ?? "")")
-            print("Date: \(fixture.eventDate ?? "")")
-            print("Result: \(fixture.eventFinalResult ?? "nil")")
-            print("---")
-        }
-        
         fexturesCollectionView.reloadData()
     }
 
@@ -429,7 +427,7 @@ class FexturesViewController: UIViewController {
                 )
                 
                 header.subviews.forEach { $0.removeFromSuperview() }
-                header.backgroundColor = .systemBackground
+                header.backgroundColor = .clear
                 
                 let label = UILabel(frame: CGRect(x: 16, y: 0, width: header.bounds.width - 32, height: header.bounds.height))
                 label.font = UIFont.boldSystemFont(ofSize: 20)
@@ -469,15 +467,29 @@ class FexturesViewController: UIViewController {
                 showFixtureDetail(fixture, isUpcoming: false)
                 
             case 2 where indexPath.item < leagueTeams.count:
-                let teamName = leagueTeams[indexPath.item]
-                showTeamDetail(teamName.standingTeam ?? "Unknown Team")
+                let team = leagueTeams[indexPath.item]
+                navigateToTeamDetails(with: team)
                 
             default:
                 break
             }
         }
         
+        
+        
            //MARK: - Helper and  Alerts showing functions
+        
+        private func navigateToTeamDetails(with team: Standing) {
+let teamVC = TeamDetailsViewController(nibName: "TeamDetailsViewController", bundle: nil)
+            
+            teamVC.selectedTeam = team
+            teamVC.teamName = team.standingTeam
+            teamVC.teamLogo = team.teamLogo
+            teamVC.teamId = team.teamKey
+            teamVC.selectedSport = selectedSport
+            
+            navigationController?.pushViewController(teamVC, animated: true)
+        }
         
         private func showFixtureDetail(_ fixture: Fixture, isUpcoming: Bool) {
             let alert = UIAlertController(

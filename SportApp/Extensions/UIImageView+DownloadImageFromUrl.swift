@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 extension UIImageView {
+    
     func loadImage(from urlString: String?, placeholder: UIImage? = UIImage(named: "unknownLeague")) {
         guard let urlString = urlString, let url = URL(string: urlString) else {
             self.image = placeholder

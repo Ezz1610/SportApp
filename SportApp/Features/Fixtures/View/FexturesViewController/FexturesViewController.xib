@@ -35,7 +35,6 @@
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NSX-Ry-Ily" secondAttribute="trailing" id="Uqr-NS-TbE"/>
                 <constraint firstItem="NSX-Ry-Ily" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="amC-I8-GTr"/>
                 <constraint firstItem="NSX-Ry-Ily" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="isI-YW-kCF"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="NSX-Ry-Ily" secondAttribute="bottom" id="m7A-vx-MyH"/>
             </constraints>
             <point key="canvasLocation" x="131" y="-11"/>
         </view>
