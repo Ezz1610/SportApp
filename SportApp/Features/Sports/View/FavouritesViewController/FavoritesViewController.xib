@@ -10,6 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FavoritesViewController" customModule="SportApp" customModuleProvider="target">
             <connections>
+                <outlet property="favouritesTableView" destination="VLZ-sw-CIf" id="4MJ-Ib-aoh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,14 +18,27 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VLZ-sw-CIf">
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemRedColor"/>
+            <color key="backgroundColor" red="0.44204294779999997" green="0.58327707620000002" blue="0.44618459179999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="VLZ-sw-CIf" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="4yS-gH-jak"/>
+                <constraint firstItem="VLZ-sw-CIf" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="Emc-Ht-VtC"/>
+                <constraint firstItem="VLZ-sw-CIf" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="Q86-CY-5P4"/>
+                <constraint firstAttribute="trailing" secondItem="VLZ-sw-CIf" secondAttribute="trailing" id="TqT-YU-gn7"/>
+            </constraints>
             <point key="canvasLocation" x="83" y="-11"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

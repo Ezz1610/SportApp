@@ -22,15 +22,51 @@ final class CoreDataHelper {
     private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+    
+    var viewContext: NSManagedObjectContext {
+        return context
+    }
 
     // MARK: - Save Generic Models
-    func save<T: CoreDataConvertible>(_ models: [T]) {
-        for model in models {
-            _ = model.toManagedObject(in: context)
-        }
-
-        saveContext()
-        print("Saved \(models.count) \(T.self) items")
+//    func saveAll<T: CoreDataConvertible>(_ models: [T]) {
+//        for model in models {
+//            _ = model.toManagedObject(in: context)
+//        }
+//
+//        saveContext()
+//        print("Saved \(models.count) \(T.self) items")
+//    }
+//    
+//    func save<T: CoreDataConvertible>(_ model: T?) {
+//       
+//        _ = model?.toManagedObject(in: context)
+//    
+//
+//        saveContext()
+//        print("Saved \(model) \(T.self) items")
+//    }
+    
+    func saveLeague(league: League){
+        guard let entity = NSEntityDescription.entity(forEntityName: "CDLeague", in: context) else {
+                    print("❌ Failed to create entity: Movie")
+                    return
+                }
+                
+                let leagueEntity = NSManagedObject(entity: entity, insertInto: context)
+        leagueEntity.setValue(league.league_name, forKey: "leagueName")
+        leagueEntity.setValue(league.league_key, forKey: "leagueKey")
+        leagueEntity.setValue(league.league_surface, forKey: "leagueSurface")
+        leagueEntity.setValue(league.league_logo, forKey: "leagueLogo")
+        leagueEntity.setValue(league.country_key, forKey: "countryKey")
+        leagueEntity.setValue(league.country_name, forKey: "countryName")
+                do {
+                    try context.save()
+                    print("✅ Context saved")
+                } catch {
+                    print("❌ Save failed: \(error.localizedDescription)")
+                }
+        
+        
     }
 
     // MARK: - Delete All for Entity Type

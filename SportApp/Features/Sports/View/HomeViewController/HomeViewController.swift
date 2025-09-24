@@ -53,8 +53,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2.5 
-        let height = collectionView.frame.height / 2.5
+        let width = collectionView.frame.width / 3
+        let height = collectionView.frame.height / 3
         return CGSize(width: width, height: height)
     }
 
@@ -72,22 +72,46 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       // for checking network connection
+        if !NetworkMonitor.shared.isConnected {
+            showNoInternetAlert()
+            return
+        }
+        
         let leaguesVC = LeaguesViewController(nibName: "LeaguesViewController", bundle: nil)
            
            switch indexPath.item {
            case 0:
                leaguesVC.selectedSport = .football
+               leaguesVC.sportName = "Football"
            case 1:
                leaguesVC.selectedSport = .basketball
+               leaguesVC.sportName = "Basket Ball"
            case 2:
                leaguesVC.selectedSport = .tennis
+               leaguesVC.sportName = "Tennis"
            case 3:
                leaguesVC.selectedSport = .cricket
+               leaguesVC.sportName = "Cricket"
            default:
                break
            }
            
            navigationController?.pushViewController(leaguesVC, animated: true)
+    }
+    
+       //MARK: - Alert showing functions
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(
+            title: "No Internet Connection",
+            message: "Please connect to the internet to continue.",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 
 }
