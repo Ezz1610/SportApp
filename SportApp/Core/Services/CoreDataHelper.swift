@@ -22,6 +22,10 @@ final class CoreDataHelper {
     private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
+    
+    var viewContext: NSManagedObjectContext {
+        return context
+    }
 
     // MARK: - Save Generic Models
     func save<T: CoreDataConvertible>(_ models: [T]) {

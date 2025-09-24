@@ -14,11 +14,14 @@ class LeaguesTableViewCell: UITableViewCell {
     @IBOutlet weak var leaguesImageView: UIImageView!
     @IBOutlet weak var leaguesNameLabel: UILabel!
     
-       //MARK: - LifeCycle
+    @IBOutlet weak var contentStackView: UIStackView!
+    @IBOutlet weak var containerView: UIView!
+    //MARK: - LifeCycle
     override func awakeFromNib() {
         super.awakeFromNib()
-        
-        leaguesContentView.layer.cornerRadius = 20
+        containerView.layer.cornerRadius = 12
+        contentStackView.layer.cornerRadius = 12
+        leaguesContentView.layer.cornerRadius = 12
         leaguesContentView.layer.masksToBounds = false
         leaguesContentView.layer.shadowColor = UIColor.black.cgColor
         leaguesContentView.layer.shadowOpacity = 0.1

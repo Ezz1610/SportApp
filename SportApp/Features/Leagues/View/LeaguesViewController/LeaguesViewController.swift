@@ -22,6 +22,7 @@ class LeaguesViewController: UIViewController {
         setupTableView()
         setupPresenters()
         self.title = sportName
+        leaguesTableView.backgroundColor = .clear
         
     }
     

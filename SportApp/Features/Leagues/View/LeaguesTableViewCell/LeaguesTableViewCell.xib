@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -16,34 +17,50 @@
                 <rect key="frame" x="0.0" y="0.0" width="470" height="263"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bSU-c7-BKh">
-                        <rect key="frame" x="20" y="12" width="430" height="239"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfL-rl-unQ" userLabel="ContainerView">
+                        <rect key="frame" x="0.0" y="0.0" width="470" height="247"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yTQ-VV-DkU">
-                                <rect key="frame" x="0.0" y="84.666666666666671" width="70" height="70.000000000000014"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="70" id="ShY-WM-yDG"/>
-                                    <constraint firstAttribute="width" secondItem="yTQ-VV-DkU" secondAttribute="height" multiplier="1:1" id="TEP-kt-ndP"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-Mq-bNE">
-                                <rect key="frame" x="78" y="106.66666666666667" width="352" height="25.666666666666671"/>
-                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bSU-c7-BKh">
+                                <rect key="frame" x="0.0" y="0.0" width="470" height="247"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yTQ-VV-DkU">
+                                        <rect key="frame" x="0.0" y="88.666666666666671" width="70" height="70.000000000000014"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="ShY-WM-yDG"/>
+                                            <constraint firstAttribute="width" secondItem="yTQ-VV-DkU" secondAttribute="height" multiplier="1:1" id="TEP-kt-ndP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-Mq-bNE">
+                                        <rect key="frame" x="78" y="110.66666666666667" width="392" height="25.666666666666671"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                            </stackView>
                         </subviews>
-                    </stackView>
+                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                        <constraints>
+                            <constraint firstItem="bSU-c7-BKh" firstAttribute="top" secondItem="tfL-rl-unQ" secondAttribute="top" id="SZ3-5e-LgQ"/>
+                            <constraint firstItem="bSU-c7-BKh" firstAttribute="leading" secondItem="tfL-rl-unQ" secondAttribute="leading" id="X91-Fo-VEt"/>
+                            <constraint firstAttribute="trailing" secondItem="bSU-c7-BKh" secondAttribute="trailing" id="fZ9-rL-r5P"/>
+                            <constraint firstAttribute="bottom" secondItem="bSU-c7-BKh" secondAttribute="bottom" id="sr4-dn-zEG"/>
+                        </constraints>
+                    </view>
                 </subviews>
+                <color key="backgroundColor" red="0.44204294779999997" green="0.58327707620000002" blue="0.44618459179999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="bSU-c7-BKh" secondAttribute="trailing" id="ABq-6j-o8V"/>
-                    <constraint firstItem="bSU-c7-BKh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="C8y-An-c7i"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="bSU-c7-BKh" secondAttribute="bottom" id="aFO-5g-Qsl"/>
-                    <constraint firstItem="bSU-c7-BKh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="fTp-ax-HyU"/>
+                    <constraint firstAttribute="trailing" secondItem="tfL-rl-unQ" secondAttribute="trailing" id="5wL-eK-IvH"/>
+                    <constraint firstItem="tfL-rl-unQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Pue-nU-KRw"/>
+                    <constraint firstAttribute="bottom" secondItem="tfL-rl-unQ" secondAttribute="bottom" constant="16" id="Xrc-wO-U7d"/>
+                    <constraint firstItem="tfL-rl-unQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="aPp-eQ-eee"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="containerView" destination="tfL-rl-unQ" id="EAV-AA-aOB"/>
+                <outlet property="contentStackView" destination="bSU-c7-BKh" id="KMp-ys-enY"/>
                 <outlet property="leaguesContentView" destination="H2p-sc-9uM" id="kq2-Lr-dHV"/>
                 <outlet property="leaguesImageView" destination="yTQ-VV-DkU" id="lHH-76-Vn2"/>
                 <outlet property="leaguesNameLabel" destination="8mY-Mq-bNE" id="roN-a1-mAO"/>
@@ -51,4 +68,9 @@
             <point key="canvasLocation" x="198.47328244274809" y="65.845070422535215"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <systemColor name="opaqueSeparatorColor">
+            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
 </document>

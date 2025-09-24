@@ -28,17 +28,33 @@ class FexturesViewController: UIViewController {
         super.viewDidLoad()
         setupCollectionView()
         fetchLeagueData()
-        self.title = leagueName ?? "Fixtures"
+        setupUI()
     }
     
        //MARK: - Behaviour
     
     private func setupUI(){
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
+        self.title = leagueName ?? "Fixtures"
         
     }
-    @objc func makeLeagueFavourite(){
+    @objc func makeLeagueFavourite() {
+        guard let id = leagueId, let name = leagueName else { return }
         
+        let context = CoreDataHelper.shared.viewContext
+        let league = CDLeague(context: context)
+        league.leagueKey = Int64(id)
+        league.leagueName = name
+        
+      //  league.sport_type = selectedSport?.rawValue
+       // league. = Date()
+        
+        do {
+            try context.save()
+            print("✅ \(name) has been added to favorites.")
+        } catch {
+            print("❌ Failed saving favorite: \(error)")
+        }
     }
     
     private func setupCollectionView() {
