@@ -28,6 +28,7 @@ class LeaguesViewController: UIViewController {
     
     //MARK: - Behaviour
     func setupPresenters() {
+        showLoader()
         guard let selectedSport = selectedSport else { return }
         let queryItems = [
             URLQueryItem(name: "met", value: "Leagues"),
@@ -51,6 +52,7 @@ class LeaguesViewController: UIViewController {
             queryItems: queryItems
         ) { vc, response in
             vc.renderToView(res: response)
+            self.hideLoader()
         }
         presenter.getDataFromModel()
     }
@@ -76,7 +78,6 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "leaguesCell", for: indexPath) as! LeaguesTableViewCell
         let league = sportsLeague[indexPath.row]
         cell.leaguesNameLabel.text = league.league_name
-       // let logoImageUrl = "\(league.league_logo)?width=70&height=70"
         
         if let logoUrl = league.league_logo, !logoUrl.isEmpty {
             cell.leaguesImageView.loadImage(from: "\(logoUrl)?width=70&height=70")
@@ -106,6 +107,7 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         fixturesVC.selectedSport = selectedSport
         fixturesVC.leagueName = league.league_name
         fixturesVC.leagueId = league.league_key
+        fixturesVC.selectedLeague = league
         
         navigationController?.pushViewController(fixturesVC, animated: true)
     }

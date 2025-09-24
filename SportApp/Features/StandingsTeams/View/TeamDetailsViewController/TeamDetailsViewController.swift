@@ -33,6 +33,7 @@ class TeamDetailsViewController: UIViewController {
         setupUI()
         setupTableView()
         fetchTeamDetails()
+        guard checkInternetOrShowAlert() else { return }
     }
     
     
@@ -45,6 +46,7 @@ class TeamDetailsViewController: UIViewController {
     }
     
     private func fetchTeamDetails() {
+        showLoader()
         guard let sportType = selectedSport, let teamId = teamId else { return }
         
         let queryItems = [
@@ -67,6 +69,7 @@ class TeamDetailsViewController: UIViewController {
             queryItems: queryItems
         ) { vc, response in
             vc.handleTeamDetailsResponse(response)
+            vc.hideLoader()
         }
         presenter.getDataFromModel()
     }
@@ -156,5 +159,32 @@ extension TeamDetailsViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         150
     }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let player = players[indexPath.row]
+showPlayerDetailsAlert(player: player)
+    }
     
 }
+
+   //MARK: - Alert Related Functions
+extension TeamDetailsViewController{
+    
+    func showPlayerDetailsAlert(player: Player) {
+        let captainText = (player.playerIsCaptain?.isEmpty == false) ? "Yes" : "No"
+        
+        let message = """
+        Number: \(player.playerNumber ?? "-")
+        Country: \(player.playerCountry ?? "Unknown")
+        Age: \(player.playerAge ?? "-")
+        Captain: \(captainText)
+        Team: \(self.teamName!)
+        """
+
+        let alert = UIAlertController(
+            title: player.playerName ?? "Player",
+            message: message,
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
+    }}

@@ -53,8 +53,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2.5 
-        let height = collectionView.frame.height / 2.5
+        let width = collectionView.frame.width / 3
+        let height = collectionView.frame.height / 3
         return CGSize(width: width, height: height)
     }
 
@@ -72,6 +72,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       // for checking network connection
+        if !NetworkMonitor.shared.isConnected {
+            showNoInternetAlert()
+            return
+        }
+        
         let leaguesVC = LeaguesViewController(nibName: "LeaguesViewController", bundle: nil)
            
            switch indexPath.item {
@@ -92,6 +98,20 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
            }
            
            navigationController?.pushViewController(leaguesVC, animated: true)
+    }
+    
+       //MARK: - Alert showing functions
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(
+            title: "No Internet Connection",
+            message: "Please connect to the internet to continue.",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 
 }
