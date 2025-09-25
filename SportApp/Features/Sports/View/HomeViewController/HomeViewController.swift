@@ -12,6 +12,8 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var sportsCollectionView: UICollectionView!
     
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
        //MARK: - Properties
     // MARK: - Data
        let sports = ["Football", "Basketball", "Tennis", "Cricket"]
@@ -28,10 +30,24 @@ class HomeViewController: UIViewController {
                 sportsCollectionView.register(nib, forCellWithReuseIdentifier: "sportsCell")
         sportsCollectionView.delegate = self
         sportsCollectionView.dataSource = self
+        darkModeSwitch.isOn = traitCollection.userInterfaceStyle == .dark
+            darkModeSwitch.addTarget(self, action: #selector(darkModeSwitchToggled(_:)), for: .valueChanged)
     }
-
-
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+        darkModeSwitch.isOn = isDarkMode
+    }
+    
+    @objc private func darkModeSwitchToggled(_ sender: UISwitch) {
+        if let window = UIApplication.shared.windows.first {
+            window.overrideUserInterfaceStyle = sender.isOn ? .dark : .light
+        }
+        sportsCollectionView.reloadData()
+        UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
+    }
 }
    //MARK: - CollectionView Methods
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

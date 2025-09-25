@@ -29,6 +29,7 @@ class MainTabBarController: UITabBarController {
         guard let tabBarItems = tabBar.items else { return }
 
         let darkGreen = UIColor(red: 0/255, green: 100/255, blue: 0/255, alpha: 1)
+        let customColor = UIColor(named: "navigationColor")
         
         // Configure text attributes
         let normalAttributes: [NSAttributedString.Key: Any] = [
@@ -44,7 +45,7 @@ class MainTabBarController: UITabBarController {
         // Apply globally using UITabBarAppearance (iOS 13+)
         let appearance = UITabBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .white
+        appearance.backgroundColor = UIColor(named: "navigationColor")
         
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
         appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
@@ -53,12 +54,7 @@ class MainTabBarController: UITabBarController {
         if #available(iOS 15.0, *) {
             tabBar.scrollEdgeAppearance = appearance
         }
-//         tabBar.layer.shadowColor = UIColor.black.cgColor
-//         tabBar.layer.shadowOpacity = 0.1
-//         tabBar.layer.shadowOffset = CGSize(width: 0, height: -2)
-//         tabBar.layer.shadowRadius = 4
-        
-        // Custom icons tint (dark green)
+
         tabBarItems[0].image = UIImage(systemName: "sportscourt")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
         tabBarItems[0].selectedImage = UIImage(systemName: "sportscourt.fill")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
         

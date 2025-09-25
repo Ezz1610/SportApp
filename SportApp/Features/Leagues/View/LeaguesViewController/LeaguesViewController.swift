@@ -34,14 +34,16 @@ class LeaguesViewController: UIViewController {
 
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor(red: 30/255, green: 122/255, blue: 60/255, alpha: 1.0) // #1E7A3C
+        appearance.backgroundColor = UIColor(named: "headerColor") 
         appearance.backButtonAppearance = backButtonAppearance
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
-    } 
+    }
+    
     func setupPresenters() {
         showLoader()
         guard let selectedSport = selectedSport else { return }
