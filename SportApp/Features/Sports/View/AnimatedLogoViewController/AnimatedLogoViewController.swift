@@ -26,7 +26,8 @@ class AnimatedLogoViewController: UIViewController {
             UIView.animate(withDuration: 3, animations: {
                 self.logoImageView.alpha = 0
             }, completion: { _ in
-                self.goToHome()
+//                self.goToHome()
+                self.goToOnboarding()
             })
         })
     }
@@ -35,6 +36,15 @@ class AnimatedLogoViewController: UIViewController {
     private func goToHome() {
         let tabBar = MainTabBarController()
         navigationController?.setViewControllers([tabBar], animated: true)
+    }
+   // MARK: - Navigation
+    private func goToOnboarding() {
+        // Make sure the storyboard name matches your Main storyboard
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        if let pageVC = storyboard.instantiateViewController(withIdentifier: "PageViewController") as? PageViewController {
+            // Use navigationController if you want navigation stack, or present modally
+            navigationController?.setViewControllers([pageVC], animated: true)
+        }
     }
 
 

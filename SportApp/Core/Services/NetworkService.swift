@@ -38,16 +38,7 @@ class NetworkService: FetchDataProtocol {
                 completionHandler(.failure(NSError(domain: "NoData", code: 204, userInfo: nil)))
                 return
             }
-//            do {
-//                let decodedData = try JSONDecoder().decode(T.self, from: data)
-//                completionHandler(.success(decodedData))
-//            } catch {
-//                // 🔍 Print raw response and decoding error
-//                print("❌ Decoding error: \(error.localizedDescription)")
-//                print("🔍 Raw response:")
-//                print(String(data: data, encoding: .utf8) ?? "Invalid JSON")
-//                completionHandler(.failure(error))
-//            }
+
 
             do {
                 let decodedData = try JSONDecoder().decode(T.self, from: data)
@@ -61,34 +52,3 @@ class NetworkService: FetchDataProtocol {
     }
 }
 
-
-
-/*
-func testFetchUpcomingFootballFixtures() {
-    let exp = expectation(description: "Fetching upcoming football fixtures")
-
-    let url = ApiUrls.footballFixtures
-    let queryItems = [
-        URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
-        URLQueryItem(name: "from", value: "2025-09-25"),
-        URLQueryItem(name: "to", value: "2025-09-30"),
-        URLQueryItem(name: "leagueId", value:"4")
-
-    ]
-
-    NetworkService.fetchData(from: url, queryItems: queryItems) { (result: Result<FixturesResponse, Error>) in
-        switch result {
-        case .success(let response):
-            XCTAssertEqual(response.success, 1, "API should return success: 1")
-            XCTAssertNotNil(response.result, "Result should not be nil")
-            XCTAssertFalse(response.result.isEmpty, "Fixtures list should not be empty")
-
-                    case .failure(let error):
-            XCTFail("Error: \(error.localizedDescription)")
-        }
-        exp.fulfill()
-    }
-
-    waitForExpectations(timeout: 15)
-}
-*/
