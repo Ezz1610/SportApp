@@ -18,6 +18,7 @@ class FexturesViewController: UIViewController {
     var selectedSport: SportType?
     var leagueName: String?
     var leagueId: Int?
+    private var isFavourite: Bool = false
     private var upcomingEvents = [Fixture]()
     private var latestEvents = [Fixture]()
     private var leagueTeams = [Standing]()
@@ -34,35 +35,25 @@ class FexturesViewController: UIViewController {
     
     //MARK: - Behaviour
     
-    private func setupUI(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
-        self.title = leagueName ?? "Fixtures"
-        
-    }
-    @objc func makeLeagueFavourite() {
-        guard let id = leagueId, let name = leagueName else { return }
-        
-        let context = CoreDataHelper.shared.viewContext
-      //  let league = CDLeague(context: context)
-        
-        //        let  leagueModel = CDLeague(context: context)
-        //        leagueModel.leagueKey = Int64(id)
-        //        leagueModel.leagueName = leagueName
-        
-        //        CoreDataHelper.shared.save(leagueModel)
-        CoreDataHelper.shared.saveLeague(league: self.selectedLeague)
-        //        league.leagueKey = Int64(id)
-        //        league.leagueName = name
-        //        CoreDataHelper.shared.save(self.selectedLeague)
-        //       context.insert(league)
-        
-        do {
-            try context.save()
-            print("✅ \(name) has been added to favorites.")
-        } catch {
-            print("❌ Failed saving favorite: \(error)")
-        }
-    }
+//    private func setupUI(){
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
+//        self.title = leagueName ?? "Fixtures"
+//        
+//    }
+//    @objc func makeLeagueFavourite() {
+//        guard let league = selectedLeague else { return }
+//        
+//        let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+//            .first { $0.leagueKey == league.league_key ?? 0 }
+//        
+//        if existing != nil {
+//            print("⚠️ Already in favorites")
+//            return
+//        }
+//        
+//        CoreDataHelper.shared.saveLeague(league: league)
+//        print("✅ \(league.league_name) added to favorites")
+//    }
     
     private func setupCollectionView() {
         fexturesCollectionView.collectionViewLayout = createLayout()
@@ -73,7 +64,6 @@ class FexturesViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "HeaderView"
         )
-       // fexturesCollectionView.backgroundColor = .clear
         fexturesCollectionView.dataSource = self
         fexturesCollectionView.delegate = self
         fexturesCollectionView.reloadData()
@@ -227,7 +217,7 @@ class FexturesViewController: UIViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 30
+        config.interSectionSpacing = 16
         layout.configuration = config
         
         return layout
@@ -250,7 +240,7 @@ class FexturesViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -262,6 +252,7 @@ class FexturesViewController: UIViewController {
             alignment: .top
         )
         section.boundarySupplementaryItems = [header]
+     //   header.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0)
         
         return section
     }
@@ -276,13 +267,13 @@ class FexturesViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(130)
+            heightDimension: .absolute(170)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -545,5 +536,54 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     
+}
+
+   //MARK: - Favourite button implementation
+extension FexturesViewController{
+    private func setupUI() {
+        guard let league = selectedLeague else { return }
+        
+        // check if league exists in favourites
+        let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+            .first { $0.leagueKey == league.league_key ?? 0 }
+        
+        isFavourite = (existing != nil)
+        
+        updateFavouriteButton()
+        self.title = leagueName ?? "Fixtures"
+    }
+
+    private func updateFavouriteButton() {
+        let iconName = isFavourite ? "heart.fill" : "heart"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: iconName),
+            style: .plain,
+            target: self,
+            action: #selector(makeLeagueFavourite)
+        )
+    }
+    
+    @objc func makeLeagueFavourite() {
+        guard let league = selectedLeague else { return }
+        
+        if isFavourite {
+            // remove from favourites
+            if let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+                .first(where: { $0.leagueKey == league.league_key ?? 0 }) {
+                CoreDataHelper.shared.deleteObject(existing)
+                print("❌ Removed \(league.league_name) from favourites")
+            }
+            isFavourite = false
+        } else {
+            // add to favourites
+            print("💾 Saving league \(league.league_name ?? "nil") with sportType = \(league.sportType?.rawValue ?? "nil")")
+
+            CoreDataHelper.shared.saveLeague(league: league)
+            print("✅ Added \(league.league_name) to favourites")
+            isFavourite = true
+        }
+        
+        updateFavouriteButton()
+    }
 }
 

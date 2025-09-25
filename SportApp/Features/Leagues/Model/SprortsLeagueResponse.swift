@@ -18,5 +18,16 @@ struct League : Decodable{
     var country_name : String?
     var league_surface : String?
     let league_logo: String?
-
+    
+// local property , not related to api
+    var sportType: SportType?
+    
+    enum CodingKeys: String, CodingKey {
+        case league_key
+        case league_name
+        case country_key
+        case country_name
+        case league_surface
+        case league_logo
+    }
 }

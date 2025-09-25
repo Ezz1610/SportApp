@@ -54,7 +54,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let width = collectionView.frame.width / 2.5
-        let height = collectionView.frame.height / 3
+        let height = collectionView.frame.height / 2.5
         return CGSize(width: width, height: height)
     }
 

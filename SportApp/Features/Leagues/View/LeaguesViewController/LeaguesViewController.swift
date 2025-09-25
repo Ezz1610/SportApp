@@ -117,6 +117,9 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let league = sportsLeague[indexPath.row]
+        print("➡️ Going to FexturesVC with: id=\(league.league_key ?? -1), name=\(league.league_name ?? ""), sport=\(selectedSport?.rawValue ?? "nil")")
+
+        
         let fixturesVC = FexturesViewController(nibName: "FexturesViewController", bundle: nil)
         
         fixturesVC.selectedSport = selectedSport
@@ -124,6 +127,10 @@ extension LeaguesViewController: UITableViewDelegate, UITableViewDataSource {
         fixturesVC.leagueId = league.league_key
         fixturesVC.selectedLeague = league
         
+        // for making sure it passes sport type 
+        var leagueWithSport = league
+        leagueWithSport.sportType = selectedSport
+        fixturesVC.selectedLeague = leagueWithSport
         navigationController?.pushViewController(fixturesVC, animated: true)
     }
     

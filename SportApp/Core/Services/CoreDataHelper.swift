@@ -59,6 +59,9 @@ final class CoreDataHelper {
         leagueEntity.setValue(league.league_logo, forKey: "leagueLogo")
         leagueEntity.setValue(league.country_key, forKey: "countryKey")
         leagueEntity.setValue(league.country_name, forKey: "countryName")
+        
+        // for sport type which doesn't come from api
+        leagueEntity.setValue(league.sportType?.rawValue, forKey: "selectedSport")
                 do {
                     try context.save()
                     print("✅ Context saved")
@@ -97,6 +100,9 @@ final class CoreDataHelper {
         fixtureEntity.setValue(fixture.homeTeamLogo, forKey: "eventHomeTeamLogo") // If this attribute exists
         fixtureEntity.setValue(fixture.eventHalftimeResult, forKey: "eventHalftimeResult") // If this attribute exists
         fixtureEntity.setValue(fixture.eventFtResult, forKey: "eventFtResult") // If this attribute exists
+        
+
+
 
         do {
             try context.save()
@@ -135,7 +141,7 @@ final class CoreDataHelper {
         }
     }
 
-    // MARK: - Delete All for Entity Type
+    // MARK: - Delete All for Entity Type -> empty entity
     func delete<T: NSManagedObject>(_ type: T.Type) {
         let entityName = String(describing: type)
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: entityName)
@@ -149,6 +155,17 @@ final class CoreDataHelper {
             print("Failed to delete \(entityName): \(error.localizedDescription)")
         }
     }
+    // delete object from entity
+    func deleteObject(_ object: NSManagedObject) {
+        context.delete(object)
+        do {
+            try context.save()
+            print("✅ Deleted object: \(object)")
+        } catch {
+            print("❌ Failed to delete object: \(error.localizedDescription)")
+        }
+    }
+    
     //#####################################################
     private func mapFixture(from object: NSManagedObject) -> Fixture {
         Fixture(
@@ -171,6 +188,7 @@ final class CoreDataHelper {
             awayTeamLogo: object.value(forKey: "eventAwayTeamLogo") as? String,
             eventHalftimeResult: object.value(forKey: "eventHalftimeResult") as? String,
             eventFtResult: object.value(forKey: "eventFtResult") as? String
+            
         )
     }
     func getLeagues() -> [League] {
