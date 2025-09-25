@@ -149,6 +149,101 @@ final class CoreDataHelper {
             print("Failed to delete \(entityName): \(error.localizedDescription)")
         }
     }
+    //#####################################################
+    private func mapFixture(from object: NSManagedObject) -> Fixture {
+        Fixture(
+            eventKey: Int(object.value(forKey: "eventKey") as? String ?? "") ?? 0,
+            eventDate: object.value(forKey: "eventDate") as? String ?? "",
+            eventTime: object.value(forKey: "eventTime") as? String ?? "",
+            eventHomeTeam: object.value(forKey: "eventHomeTeam") as? String ?? "",
+            homeTeamKey: Int(object.value(forKey: "homeTeamKey") as? String ?? "") ?? 0,
+            eventAwayTeam: object.value(forKey: "eventAwayTeam") as? String ?? "",
+            awayTeamKey: Int(object.value(forKey: "awayTeamKey") as? String ?? "") ?? 0,
+            eventFinalResult: object.value(forKey: "eventFinalResult") as? String,
+            eventStatus: object.value(forKey: "eventStatus") as? String ?? "",
+            countryName: object.value(forKey: "countryName") as? String ?? "",
+            leagueName: object.value(forKey: "leagueName") as? String ?? "",
+            leagueKey: Int(object.value(forKey: "leagueKey") as? String ?? "") ?? 0,
+            leagueRound: object.value(forKey: "leagueRound") as? String,
+            leagueSeason: object.value(forKey: "leagueSeason") as? String ?? "",
+            eventLive: object.value(forKey: "eventLive") as? String ?? "",
+            homeTeamLogo: object.value(forKey: "eventHomeTeamLogo") as? String ?? "",
+            awayTeamLogo: object.value(forKey: "eventAwayTeamLogo") as? String,
+            eventHalftimeResult: object.value(forKey: "eventHalftimeResult") as? String,
+            eventFtResult: object.value(forKey: "eventFtResult") as? String
+        )
+    }
+    func getLeagues() -> [League] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CDLeague")
+
+        do {
+            let results = try context.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            return results.map { obj in
+                League(
+                    league_key: obj.value(forKey: "leagueKey") as? Int ?? 0,
+                    league_name: obj.value(forKey: "leagueName") as? String ?? "",
+                    country_key: obj.value(forKey: "countryKey") as? Int ?? 0, country_name: obj.value(forKey: "countryName") as? String ?? "", league_surface: obj.value(forKey: "leagueSurface") as? String ?? "",
+                    league_logo: obj.value(forKey: "leagueLogo") as? String ?? ""
+                )
+            }
+        } catch {
+            print("Failed to fetch leagues: \(error.localizedDescription)")
+            return []
+        }
+    }
+    func getStandings() -> [Standing] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CDStanding")
+
+        do {
+            let results = try context.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            return results.map { obj in
+                Standing(
+                    standingPlace: (obj.value(forKey: "standingPlace") as? NSNumber)?.intValue,
+                    standingPlaceType: obj.value(forKey: "standingPlaceType") as? String,
+                    standingTeam: obj.value(forKey: "standingTeam") as? String,
+                    teamKey: (obj.value(forKey: "teamKey") as? NSNumber)?.intValue,
+                    leagueKey: (obj.value(forKey: "leagueKey") as? NSNumber)?.intValue,
+                    leagueSeason: obj.value(forKey: "leagueSeason") as? String,
+                    leagueRound: obj.value(forKey: "leagueRound") as? String,
+                    standingUpdated: obj.value(forKey: "standingUpdated") as? String,
+                    fkStageKey: (obj.value(forKey: "fkStageKey") as? NSNumber)?.intValue,
+                    stageName: obj.value(forKey: "stageName") as? String,
+                    teamLogo: obj.value(forKey: "teamLogo") as? String
+                )
+            }
+        } catch {
+            print("Failed to fetch standings: \(error.localizedDescription)")
+            return []
+        }
+    }
+
+
+
+    func getUpcomingFixtures() -> [Fixture] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CDFixture")
+        fetchRequest.predicate = NSPredicate(format: "eventStatus != %@", "Finished")
+
+        do {
+            let results = try context.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            return results.map(mapFixture)
+        } catch {
+            print("Failed to fetch upcoming fixtures: \(error.localizedDescription)")
+            return []
+        }
+    }
+    func getLatestFixtures() -> [Fixture] {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "CDFixture")
+        fetchRequest.predicate = NSPredicate(format: "eventStatus == %@", "Finished")
+
+        do {
+            let results = try context.fetch(fetchRequest) as? [NSManagedObject] ?? []
+            return results.map(mapFixture)
+        } catch {
+            print("Failed to fetch latest fixtures: \(error.localizedDescription)")
+            return []
+        }
+    }
+
 
     // MARK: - Fetch All of Entity Type
     func fetch<T: NSManagedObject>(_ type: T.Type) -> [T] {
