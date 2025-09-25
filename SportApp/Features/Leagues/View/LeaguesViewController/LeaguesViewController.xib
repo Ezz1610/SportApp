@@ -20,21 +20,23 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="5XQ-87-MAl">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="877"/>
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Ug2-as-Qyf">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="877"/>
+                            <rect key="frame" x="16" y="75" width="361" height="727"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                            <color key="sectionIndexBackgroundColor" red="0.44204294779999997" green="0.58327707620000002" blue="0.44618459179999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <inset key="scrollIndicatorInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
+                            <color key="sectionIndexBackgroundColor" red="0.97254901960784312" green="0.97647058823529409" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" red="0.44204294779999997" green="0.58327707620000002" blue="0.44618459179999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" red="0.97254901960784312" green="0.97647058823529409" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" red="0.44204294779999997" green="0.58327707620000002" blue="0.44618459179999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.11764705882352941" green="0.47843137254901957" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="5XQ-87-MAl" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="BDP-7t-T1H"/>
+                <constraint firstItem="5XQ-87-MAl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="BDP-7t-T1H"/>
                 <constraint firstItem="5XQ-87-MAl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Kjl-7W-xYe"/>
                 <constraint firstItem="5XQ-87-MAl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="T0t-AI-6KR"/>
                 <constraint firstAttribute="trailing" secondItem="5XQ-87-MAl" secondAttribute="trailing" id="Y7t-oG-W6K"/>

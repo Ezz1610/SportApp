@@ -23,10 +23,25 @@ class LeaguesViewController: UIViewController {
         setupPresenters()
         self.title = sportName
         leaguesTableView.backgroundColor = .clear
-        
+        setupBackButton()
     }
     
     //MARK: - Behaviour
+    
+    func setupBackButton() {
+        let backButtonAppearance = UIBarButtonItemAppearance()
+        backButtonAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.clear]
+
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(red: 30/255, green: 122/255, blue: 60/255, alpha: 1.0) // #1E7A3C
+        appearance.backButtonAppearance = backButtonAppearance
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+    } 
     func setupPresenters() {
         showLoader()
         guard let selectedSport = selectedSport else { return }

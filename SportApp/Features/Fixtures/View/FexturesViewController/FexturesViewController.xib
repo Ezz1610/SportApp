@@ -20,6 +20,7 @@
             <subviews>
                 <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="NSX-Ry-Ily">
                     <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <color key="backgroundColor" red="0.97254901960784312" green="0.97647058823529409" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="tI1-h2-eRt">
                         <size key="itemSize" width="128" height="128"/>
                         <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -29,7 +30,7 @@
                 </collectionView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" red="0.44204294782926795" green="0.58327707618173918" blue="0.44618459176480235" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.11764705882352941" green="0.47843137254901957" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="NSX-Ry-Ily" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="Du5-gL-q3g"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="NSX-Ry-Ily" secondAttribute="trailing" id="Uqr-NS-TbE"/>

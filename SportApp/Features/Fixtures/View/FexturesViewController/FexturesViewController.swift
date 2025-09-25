@@ -73,7 +73,7 @@ class FexturesViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "HeaderView"
         )
-        fexturesCollectionView.backgroundColor = .clear
+       // fexturesCollectionView.backgroundColor = .clear
         fexturesCollectionView.dataSource = self
         fexturesCollectionView.delegate = self
         fexturesCollectionView.reloadData()
