@@ -18,6 +18,7 @@ class FexturesViewController: UIViewController {
     var selectedSport: SportType?
     var leagueName: String?
     var leagueId: Int?
+    private var isFavourite: Bool = false
     private var upcomingEvents = [Fixture]()
     private var latestEvents = [Fixture]()
     private var leagueTeams = [Standing]()
@@ -34,35 +35,25 @@ class FexturesViewController: UIViewController {
     
     //MARK: - Behaviour
     
-    private func setupUI(){
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
-        self.title = leagueName ?? "Fixtures"
-        
-    }
-    @objc func makeLeagueFavourite() {
-        guard let id = leagueId, let name = leagueName else { return }
-        
-        let context = CoreDataHelper.shared.viewContext
-      //  let league = CDLeague(context: context)
-        
-        //        let  leagueModel = CDLeague(context: context)
-        //        leagueModel.leagueKey = Int64(id)
-        //        leagueModel.leagueName = leagueName
-        
-        //        CoreDataHelper.shared.save(leagueModel)
-        CoreDataHelper.shared.saveLeague(league: self.selectedLeague)
-        //        league.leagueKey = Int64(id)
-        //        league.leagueName = name
-        //        CoreDataHelper.shared.save(self.selectedLeague)
-        //       context.insert(league)
-        
-        do {
-            try context.save()
-            print("✅ \(name) has been added to favorites.")
-        } catch {
-            print("❌ Failed saving favorite: \(error)")
-        }
-    }
+//    private func setupUI(){
+//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
+//        self.title = leagueName ?? "Fixtures"
+//        
+//    }
+//    @objc func makeLeagueFavourite() {
+//        guard let league = selectedLeague else { return }
+//        
+//        let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+//            .first { $0.leagueKey == league.league_key ?? 0 }
+//        
+//        if existing != nil {
+//            print("⚠️ Already in favorites")
+//            return
+//        }
+//        
+//        CoreDataHelper.shared.saveLeague(league: league)
+//        print("✅ \(league.league_name) added to favorites")
+//    }
     
     private func setupCollectionView() {
         fexturesCollectionView.collectionViewLayout = createLayout()
@@ -73,7 +64,6 @@ class FexturesViewController: UIViewController {
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
             withReuseIdentifier: "HeaderView"
         )
-       // fexturesCollectionView.backgroundColor = .clear
         fexturesCollectionView.dataSource = self
         fexturesCollectionView.delegate = self
         fexturesCollectionView.reloadData()
@@ -91,28 +81,32 @@ class FexturesViewController: UIViewController {
     // fetching upcoming and latest events methods
     private func fetchUpcomingEvents(sportType: SportType, leagueId: Int) {
         let fromDate = AppConstants.getNowDate()
-        let toDate = AppConstants.getLastDateOfCurrentMonth() ?? AppConstants.getNowDate()
-        
-        // same like previous one
+        let toDate = AppConstants.getLastDateOfCurrentMonth() ?? fromDate
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        let queryItems = [
+
+        var queryItems = [
             URLQueryItem(name: "met", value: "Fixtures"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
             URLQueryItem(name: "from", value: formatter.string(from: fromDate)),
-            URLQueryItem(name: "to", value: formatter.string(from: toDate)),
-            URLQueryItem(name: "leagueId", value: "\(leagueId)")
+            URLQueryItem(name: "to", value: formatter.string(from: toDate))
         ]
-        
-        var apiUrl = ""
+
+        switch sportType {
+        case .football, .basketball, .cricket:
+            queryItems.append(URLQueryItem(name: "leagueId", value: "\(leagueId)"))
+        case .tennis:
+            break
+        }
+
+        let apiUrl: String
         switch sportType {
         case .football:   apiUrl = ApiUrls.footballFixtures
         case .basketball: apiUrl = ApiUrls.basketballFixtures
         case .tennis:     apiUrl = ApiUrls.tennisFixtures
         case .cricket:    apiUrl = ApiUrls.cricketFixtures
         }
-        
+
         let presenter = CorePresenter<FexturesViewController, FixturesResponse>(
             vc: self,
             apiUrl: apiUrl,
@@ -122,39 +116,35 @@ class FexturesViewController: UIViewController {
         }
         presenter.getDataFromModel()
     }
-    
-    // Latest Events → first day of month until today
-    // from 2025-09-01 -> 2025-09-14
-    // make functon returns this
+
     private func fetchLatestEvents(sportType: SportType, leagueId: Int) {
-        let fromDate = AppConstants.getDate13DaysAgo() // 13 days ago
-        let toDate = AppConstants.getYesterdaysDate()  // Yesterday
-        
+        let fromDate = AppConstants.getDate13DaysAgo()
+        let toDate = AppConstants.getYesterdaysDate()
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        
-        // DEBUG: Print the dates to see what's being requested
-        print("Latest Events Date Range:")
-        print("From: \(formatter.string(from: fromDate))")
-        print("To: \(formatter.string(from: toDate))")
-        print("Today: \(formatter.string(from: Date()))")
-        
-        let queryItems = [
+
+        var queryItems = [
             URLQueryItem(name: "met", value: "Fixtures"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
             URLQueryItem(name: "from", value: formatter.string(from: fromDate)),
-            URLQueryItem(name: "to", value: formatter.string(from: toDate)),
-            URLQueryItem(name: "leagueId", value: "\(leagueId)")
+            URLQueryItem(name: "to", value: formatter.string(from: toDate))
         ]
-        
-        var apiUrl = ""
+
         switch sportType {
-        case .football:   apiUrl = ApiUrls.latestEventsFootballFixtures
-        case .basketball: apiUrl = ApiUrls.latestEventsBasketballFixtures
-        case .tennis:     apiUrl = ApiUrls.latestEventsTennisFixtures
-        case .cricket:    apiUrl = ApiUrls.latestEventsCricketFixtures
+        case .football, .basketball, .cricket:
+            queryItems.append(URLQueryItem(name: "leagueId", value: "\(leagueId)"))
+        case .tennis:
+            break
         }
-        
+
+        let apiUrl: String
+        switch sportType {
+        case .football:   apiUrl = ApiUrls.footballFixtures
+        case .basketball: apiUrl = ApiUrls.basketballFixtures
+        case .tennis:     apiUrl = ApiUrls.tennisFixtures
+        case .cricket:    apiUrl = ApiUrls.cricketFixtures
+        }
+
         let presenter = CorePresenter<FexturesViewController, FixturesResponse>(
             vc: self,
             apiUrl: apiUrl,
@@ -164,22 +154,25 @@ class FexturesViewController: UIViewController {
         }
         presenter.getDataFromModel()
     }
-    
+
     private func fetchStandings(sportType: SportType, leagueId: Int) {
-        let queryItems = [
+        guard sportType != .tennis else {
+            return
+        }
+
+        var queryItems = [
             URLQueryItem(name: "met", value: "Standings"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
             URLQueryItem(name: "leagueId", value: "\(leagueId)")
         ]
-        
-        var apiUrl = ""
+        let apiUrl: String
         switch sportType {
         case .football:   apiUrl = ApiUrls.football
         case .basketball: apiUrl = ApiUrls.basketball
-        case .tennis:     apiUrl = ApiUrls.tennis
         case .cricket:    apiUrl = ApiUrls.cricket
+        case .tennis:     fatalError("handled above")
         }
-        
+
         let presenter = CorePresenter<FexturesViewController, StandingsTeamsResponse>(
             vc: self,
             apiUrl: apiUrl,
@@ -189,6 +182,7 @@ class FexturesViewController: UIViewController {
         }
         presenter.getDataFromModel()
     }
+
     
     func handleStandingsResponse(_ response: StandingsTeamsResponse){
         leagueTeams = response.result.total
@@ -226,7 +220,7 @@ class FexturesViewController: UIViewController {
         }
         
         let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 30
+        config.interSectionSpacing = 16
         layout.configuration = config
         
         return layout
@@ -249,7 +243,7 @@ class FexturesViewController: UIViewController {
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .groupPagingCentered
         section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -261,7 +255,6 @@ class FexturesViewController: UIViewController {
             alignment: .top
         )
         section.boundarySupplementaryItems = [header]
-        
         return section
     }
     
@@ -275,13 +268,13 @@ class FexturesViewController: UIViewController {
         
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(130)
+            heightDimension: .absolute(170)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
         
         let section = NSCollectionLayoutSection(group: group)
         section.interGroupSpacing = 16
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 20, trailing: 10)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
         
         let headerSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -376,7 +369,7 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
         with fixture: Fixture,
         isUpcoming: Bool
     ) {
-        cell.matchDateLabel.text = AppConstants.formatMatchDate(fixture.eventDate)
+        cell.matchDateLabel.text = AppConstants.formatMatchDate(fixture.eventDate ?? "22/4")
         
         cell.matchTimeLabel.text = fixture.eventTime
         cell.firstTeamLeagueNameLabel.text = fixture.eventHomeTeam
@@ -392,9 +385,9 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
             }
         }
         
-        cell.firstTeamImageView.loadImage(from: fixture.homeTeamLogo,
+        cell.firstTeamImageView.loadImage(from: fixture.displayHomeLogo,
                                           placeholder: UIImage(named: "football"))
-        cell.secondTeamImageView.loadImage(from: fixture.awayTeamLogo,
+        cell.secondTeamImageView.loadImage(from: fixture.displayAwayLogo,
                                            placeholder: UIImage(named: "football"))
         
         configureTextColors(for: cell)
@@ -460,7 +453,11 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
             
             switch indexPath.section {
             case 0:
-                label.text = "Upcoming Events (\(upcomingEvents.count))"
+                if upcomingEvents.isEmpty {
+                    label.text = "No Upcoming Matches"
+                } else {
+                    label.text = "Upcoming Events (\(upcomingEvents.count))"
+                }
             case 1:
                 if latestEvents.isEmpty {
                     label.text = "No Recent Matches"
@@ -468,7 +465,11 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
                     label.text = "Latest Events (\(latestEvents.count))"
                 }
             case 2:
-                label.text = "League Standings (\(leagueTeams.count))"
+                if leagueTeams.isEmpty {
+                    label.text = "No Teams in this league"
+                } else {
+                    label.text = "League Standings (\(leagueTeams.count))"
+                }
             default:
                 label.text = ""
             }
@@ -499,8 +500,6 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
         }
     }
     
-    
-    
     //MARK: - Helper and  Alerts showing functions
     
     private func navigateToTeamDetails(with team: Standing) {
@@ -517,12 +516,12 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
     
     private func showFixtureDetail(_ fixture: Fixture, isUpcoming: Bool) {
         let alert = UIAlertController(
-            title: "\(fixture.eventHomeTeam) vs \(fixture.eventAwayTeam)",
+            title: "\(fixture.eventHomeTeam!) vs \(fixture.eventAwayTeam!)",
             message: """
-                Date: \(fixture.eventDate)
-                Time: \(fixture.eventTime)
-                \(isUpcoming ? "Status: Upcoming" : "Result: \(fixture.eventFinalResult)")
-                League: \(fixture.leagueName)
+                Date: \(fixture.eventDate!)
+                Time: \(fixture.eventTime!)
+                \(isUpcoming ? "Status: Upcoming" : "Result: \(fixture.eventFinalResult!)")
+                League: \(fixture.leagueName!)
                 """,
             preferredStyle: .alert
         )
@@ -530,19 +529,49 @@ extension FexturesViewController: UICollectionViewDataSource, UICollectionViewDe
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         present(alert, animated: true)
     }
-    
-    // will be replaced with real team data
-    private func showTeamDetail(_ teamName: String) {
-        let alert = UIAlertController(
-            title: teamName,
-            message: "Team details will be shown here",
-            preferredStyle: .alert
-        )
+}
+
+   //MARK: - Favourite button implementation
+extension FexturesViewController{
+    private func setupUI() {
+        guard let league = selectedLeague else { return }
         
-        alert.addAction(UIAlertAction(title: "OK", style: .default))
-        present(alert, animated: true)
+        // check if league exists in favourites
+        let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+            .first { $0.leagueKey == league.league_key ?? 0 }
+        
+        isFavourite = (existing != nil)
+        
+        updateFavouriteButton()
+        self.title = leagueName ?? "Fixtures"
+    }
+
+    private func updateFavouriteButton() {
+        let iconName = isFavourite ? "heart.fill" : "heart"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: iconName),
+            style: .plain,
+            target: self,
+            action: #selector(makeLeagueFavourite)
+        )
     }
     
-    
+    @objc func makeLeagueFavourite() {
+        guard let league = selectedLeague else { return }
+        
+        if isFavourite {
+            // remove from favourites first if already favorited
+            if let existing = CoreDataHelper.shared.fetch(CDLeague.self)
+                .first(where: { $0.leagueKey == league.league_key ?? 0 }) {
+                CoreDataHelper.shared.deleteObject(existing)
+            }
+            isFavourite = false
+        } else {
+            CoreDataHelper.shared.saveLeague(league: league)
+            isFavourite = true
+        }
+        
+        updateFavouriteButton()
+    }
 }
 

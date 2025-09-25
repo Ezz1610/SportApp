@@ -27,6 +27,7 @@
         <attribute name="leagueLogo" optional="YES" attributeType="String"/>
         <attribute name="leagueName" optional="YES" attributeType="String"/>
         <attribute name="leagueSurface" optional="YES" attributeType="String"/>
+        <attribute name="selectedSport" optional="YES" attributeType="String"/>
     </entity>
     <entity name="CDStanding" representedClassName="CDStanding" syncable="YES" codeGenerationType="class">
         <attribute name="fkStageKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

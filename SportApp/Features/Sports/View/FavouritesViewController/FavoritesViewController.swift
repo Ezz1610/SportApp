@@ -20,6 +20,8 @@ class FavoritesViewController: UIViewController {
         super.viewDidLoad()
         loadFavourites()
         setupTableView()
+        let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = textAttributes
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +71,7 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
         let league = favouriteLeagues[indexPath.row]
         
         cell.leaguesNameLabel.text = league.leagueName
+        cell.containerView.backgroundColor = .clear
         
         if let logoUrl = league.leagueLogo, !logoUrl.isEmpty {
             cell.leaguesImageView.loadImage(from: "\(logoUrl)?width=70&height=70")
@@ -83,8 +86,36 @@ extension FavoritesViewController: UITableViewDelegate, UITableViewDataSource {
         return 100
     }
     
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+            return true
+        }
+        
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            let leagueToDelete = favouriteLeagues[indexPath.row]
+            CoreDataHelper.shared.deleteObject(leagueToDelete)
+            favouriteLeagues.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            favouritesTableView.reloadData()
+        }
+    }
     
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard checkInternetOrShowAlert() else { return }
+
+        let selectedCDLeague = favouriteLeagues[indexPath.row]
+        let league = selectedCDLeague.toLeague()
+
+        let vc = FexturesViewController(nibName: "FexturesViewController", bundle: nil)
+        vc.selectedLeague = league
+        vc.leagueId = league.league_key
+        vc.leagueName = league.league_name
+        vc.selectedSport = league.sportType
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
     
     

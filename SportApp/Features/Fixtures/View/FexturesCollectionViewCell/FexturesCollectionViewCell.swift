@@ -34,6 +34,11 @@ class FexturesCollectionViewCell: UICollectionViewCell {
            super.layoutSubviews()
            updateCornerRadius()
            fixLabelConstraints()
+           firstTeamImageView.widthAnchor.constraint(equalToConstant:90).isActive = true
+               firstTeamImageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
+               
+               secondTeamImageView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+               secondTeamImageView.heightAnchor.constraint(equalToConstant: 90).isActive = true
        }
        
        private func setupCell() {
@@ -54,18 +59,7 @@ class FexturesCollectionViewCell: UICollectionViewCell {
            pitchImageView.layer.cornerRadius = cornerRadius
            pitchImageView.layer.masksToBounds = true
        }
-    
-    func configureAsPlaceholder(message: String, imageName: String) {
-    firstTeamImageView.isHidden = true
-    secondTeamImageView.isHidden = true
-    firstTeamLeagueNameLabel.isHidden = true
-    secondTeamLeagueNameLabel.isHidden = true
-    resultLabel.isHidden = true
-    matchDateLabel.isHidden = true
-    matchTimeLabel.isHidden = true
-    pitchImageView.isHidden = false
-    pitchImageView.image = UIImage(named: imageName)
-}
+
     
     func resetForNormalContent() {
         firstTeamImageView.isHidden = false
