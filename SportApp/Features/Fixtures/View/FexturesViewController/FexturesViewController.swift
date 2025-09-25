@@ -35,25 +35,7 @@ class FexturesViewController: UIViewController {
     
     //MARK: - Behaviour
     
-//    private func setupUI(){
-//        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(makeLeagueFavourite))
-//        self.title = leagueName ?? "Fixtures"
-//        
-//    }
-//    @objc func makeLeagueFavourite() {
-//        guard let league = selectedLeague else { return }
-//        
-//        let existing = CoreDataHelper.shared.fetch(CDLeague.self)
-//            .first { $0.leagueKey == league.league_key ?? 0 }
-//        
-//        if existing != nil {
-//            print("⚠️ Already in favorites")
-//            return
-//        }
-//        
-//        CoreDataHelper.shared.saveLeague(league: league)
-//        print("✅ \(league.league_name) added to favorites")
-//    }
+
     
     private func setupCollectionView() {
         fexturesCollectionView.collectionViewLayout = createLayout()
@@ -160,7 +142,7 @@ class FexturesViewController: UIViewController {
             return
         }
 
-        var queryItems = [
+        let queryItems = [
             URLQueryItem(name: "met", value: "Standings"),
             URLQueryItem(name: "APIkey", value: AppConstants.apiKey),
             URLQueryItem(name: "leagueId", value: "\(leagueId)")

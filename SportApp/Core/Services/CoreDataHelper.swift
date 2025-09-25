@@ -48,7 +48,7 @@ final class CoreDataHelper {
     
     func saveLeague(league: League){
         guard let entity = NSEntityDescription.entity(forEntityName: "CDLeague", in: context) else {
-                    print("❌ Failed to create entity: Movie")
+                    print("Failed to create entity: Movie")
                     return
                 }
                 
@@ -64,9 +64,9 @@ final class CoreDataHelper {
         leagueEntity.setValue(league.sportType?.rawValue, forKey: "selectedSport")
                 do {
                     try context.save()
-                    print("✅ Context saved")
+                    print("Context saved")
                 } catch {
-                    print("❌ Save failed: \(error.localizedDescription)")
+                    print("Save failed: \(error.localizedDescription)")
                 }
         
         
@@ -160,9 +160,9 @@ final class CoreDataHelper {
         context.delete(object)
         do {
             try context.save()
-            print("✅ Deleted object: \(object)")
+            print("Deleted object: \(object)")
         } catch {
-            print("❌ Failed to delete object: \(error.localizedDescription)")
+            print("Failed to delete object: \(error.localizedDescription)")
         }
     }
     
