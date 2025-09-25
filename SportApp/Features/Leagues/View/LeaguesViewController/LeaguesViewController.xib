@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -20,20 +21,24 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="5XQ-87-MAl">
-                    <rect key="frame" x="0.0" y="25" width="393" height="827"/>
+                    <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                     <subviews>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Ug2-as-Qyf">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="827"/>
+                            <rect key="frame" x="16" y="75" width="361" height="727"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <inset key="scrollIndicatorInsets" minX="0.0" minY="16" maxX="0.0" maxY="0.0"/>
+                            <color key="sectionIndexBackgroundColor" name="backgroundColor"/>
                         </tableView>
                     </subviews>
+                    <color key="backgroundColor" name="backgroundColor"/>
+                    <edgeInsets key="layoutMargins" top="16" left="16" bottom="16" right="16"/>
                 </stackView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <color key="backgroundColor" name="headerColor"/>
             <constraints>
-                <constraint firstAttribute="bottom" secondItem="5XQ-87-MAl" secondAttribute="bottom" id="6ee-A9-Clf"/>
-                <constraint firstItem="5XQ-87-MAl" firstAttribute="centerY" secondItem="fnl-2z-Ty3" secondAttribute="centerY" id="BDP-7t-T1H"/>
+                <constraint firstItem="5XQ-87-MAl" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="BDP-7t-T1H"/>
+                <constraint firstItem="5XQ-87-MAl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Kjl-7W-xYe"/>
                 <constraint firstItem="5XQ-87-MAl" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="T0t-AI-6KR"/>
                 <constraint firstAttribute="trailing" secondItem="5XQ-87-MAl" secondAttribute="trailing" id="Y7t-oG-W6K"/>
             </constraints>
@@ -41,6 +46,12 @@
         </view>
     </objects>
     <resources>
+        <namedColor name="backgroundColor">
+            <color red="0.97273522619999997" green="0.97676652669999997" blue="0.98013991119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="headerColor">
+            <color red="0.2151448131" green="0.47916305069999998" blue="0.23771187660000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

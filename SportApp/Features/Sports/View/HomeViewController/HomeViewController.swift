@@ -12,6 +12,8 @@ class HomeViewController: UIViewController {
     
     @IBOutlet weak var sportsCollectionView: UICollectionView!
     
+    @IBOutlet weak var darkModeSwitch: UISwitch!
+    
        //MARK: - Properties
     // MARK: - Data
        let sports = ["Football", "Basketball", "Tennis", "Cricket"]
@@ -28,10 +30,24 @@ class HomeViewController: UIViewController {
                 sportsCollectionView.register(nib, forCellWithReuseIdentifier: "sportsCell")
         sportsCollectionView.delegate = self
         sportsCollectionView.dataSource = self
+        darkModeSwitch.isOn = traitCollection.userInterfaceStyle == .dark
+            darkModeSwitch.addTarget(self, action: #selector(darkModeSwitchToggled(_:)), for: .valueChanged)
     }
-
-
-
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        let isDarkMode = UserDefaults.standard.bool(forKey: "isDarkModeEnabled")
+        overrideUserInterfaceStyle = isDarkMode ? .dark : .light
+        darkModeSwitch.isOn = isDarkMode
+    }
+    
+    @objc private func darkModeSwitchToggled(_ sender: UISwitch) {
+        if let window = UIApplication.shared.windows.first {
+            window.overrideUserInterfaceStyle = sender.isOn ? .dark : .light
+        }
+        sportsCollectionView.reloadData()
+        UserDefaults.standard.set(sender.isOn, forKey: "isDarkModeEnabled")
+    }
 }
    //MARK: - CollectionView Methods
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -53,7 +69,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let width = collectionView.frame.width / 2.5 
+        let width = collectionView.frame.width / 2.5
         let height = collectionView.frame.height / 2.5
         return CGSize(width: width, height: height)
     }
@@ -64,30 +80,54 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 16
+        return 8
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+       // for checking network connection
+        if !NetworkMonitor.shared.isConnected {
+            showNoInternetAlert()
+            return
+        }
+        
         let leaguesVC = LeaguesViewController(nibName: "LeaguesViewController", bundle: nil)
            
            switch indexPath.item {
            case 0:
                leaguesVC.selectedSport = .football
+               leaguesVC.sportName = "Football"
            case 1:
                leaguesVC.selectedSport = .basketball
+               leaguesVC.sportName = "Basket Ball"
            case 2:
                leaguesVC.selectedSport = .tennis
+               leaguesVC.sportName = "Tennis"
            case 3:
                leaguesVC.selectedSport = .cricket
+               leaguesVC.sportName = "Cricket"
            default:
                break
            }
            
            navigationController?.pushViewController(leaguesVC, animated: true)
+    }
+    
+       //MARK: - Alert showing functions
+    private func showNoInternetAlert() {
+        let alert = UIAlertController(
+            title: "No Internet Connection",
+            message: "Please connect to the internet to continue.",
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 
 }

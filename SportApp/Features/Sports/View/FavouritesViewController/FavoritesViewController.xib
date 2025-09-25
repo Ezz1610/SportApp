@@ -3,6 +3,7 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -10,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="FavoritesViewController" customModule="SportApp" customModuleProvider="target">
             <connections>
+                <outlet property="favouritesTableView" destination="VLZ-sw-CIf" id="4MJ-Ib-aoh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -17,14 +19,45 @@
         <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PB7-4D-SvF">
+                    <rect key="frame" x="0.0" y="59" width="393" height="759"/>
+                    <subviews>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="VLZ-sw-CIf">
+                            <rect key="frame" x="16" y="16" width="361" height="727"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <color key="sectionIndexBackgroundColor" name="backgroundColor"/>
+                        </tableView>
+                    </subviews>
+                    <color key="backgroundColor" name="backgroundColor"/>
+                    <constraints>
+                        <constraint firstAttribute="trailing" secondItem="VLZ-sw-CIf" secondAttribute="trailing" constant="16" id="H9z-UT-t82"/>
+                        <constraint firstItem="VLZ-sw-CIf" firstAttribute="leading" secondItem="PB7-4D-SvF" secondAttribute="leading" constant="16" id="U6m-Xi-XLJ"/>
+                        <constraint firstItem="VLZ-sw-CIf" firstAttribute="top" secondItem="PB7-4D-SvF" secondAttribute="top" constant="16" id="l0r-jm-LUR"/>
+                        <constraint firstAttribute="bottom" secondItem="VLZ-sw-CIf" secondAttribute="bottom" constant="16" id="xQO-3Q-D8y"/>
+                    </constraints>
+                </view>
+            </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemRedColor"/>
+            <color key="backgroundColor" name="headerColor"/>
+            <constraints>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="trailing" secondItem="PB7-4D-SvF" secondAttribute="trailing" id="2Nt-id-ai1"/>
+                <constraint firstItem="PB7-4D-SvF" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="DNG-HS-HYS"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="PB7-4D-SvF" secondAttribute="bottom" id="RE0-b8-34Y"/>
+                <constraint firstItem="PB7-4D-SvF" firstAttribute="top" secondItem="fnl-2z-Ty3" secondAttribute="top" id="kys-km-4mr"/>
+            </constraints>
             <point key="canvasLocation" x="83" y="-11"/>
         </view>
     </objects>
     <resources>
-        <systemColor name="systemRedColor">
-            <color red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        <namedColor name="backgroundColor">
+            <color red="0.97299998998641968" green="0.97699999809265137" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="headerColor">
+            <color red="0.21500000357627869" green="0.47900000214576721" blue="0.23800000548362732" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

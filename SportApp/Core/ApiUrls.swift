@@ -24,37 +24,6 @@ class ApiUrls {
     static let tennisFixtures  = "\(tennis)?met=Fixtures"
     static let cricketFixtures  = "\(cricket)?met=Fixtures"
 
-    ////////////////////////////// ////////////////////////////// ////////////////////////////// ////////////////////////////// //////////////////////////////
-    //// Notes: every upcoming and latest event will have query items passed separately
-    /// Example:
-    /*
-     let queryItems = [
-         URLQueryItem(name: "APIkey", value: "!_your_account_APIkey_!"),
-         URLQueryItem(name: "from", value: "2021-05-18"),
-         URLQueryItem(name: "to", value: "2021-05-18")
-     ]
-     */
-    
-    /// FIXTURES - UPCOMING EVENTS
-    
-    static let upCommingEventsFootballFixtures  = "\(footballFixtures)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
-    
-    static let upCommingEventsBasketballFixtures  = "\(basketballFixtures)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
-    
-    static let upCommingEventsCricketFixtures = "\(cricketFixtures)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
-    
-    static let upCommingEventsTennisFixturesUpCommingEvents  = "\(tennisFixtures)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"
-    
-    /// FIXTURES - LATEST EVENTS
-    
-    static let latestEventsFootballFixtures  = "\(footballFixtures)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing: AppConstants.getNowDate()))"
-    
-    static let latestEventsBasketballFixtures  = "\(basketballFixtures)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing: AppConstants.getNowDate()))"
-    
-    static let latestEventsCricketFixtures  = "\(cricketFixtures)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing: AppConstants.getNowDate()))"
-    
-    static let latestEventsTennisFixtures  = "\(tennisFixtures)&from=\(String(describing: AppConstants.getFirstDateOfCurrentMonth()))&to=\(String(describing: AppConstants.getNowDate()))"
-    
- 
 }
+
 

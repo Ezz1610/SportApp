@@ -4,7 +4,7 @@ class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tabBar.backgroundColor = .black
+        tabBar.backgroundColor = .white
         setupTabs()
         setupTabColors()
     }
@@ -26,23 +26,38 @@ class MainTabBarController: UITabBarController {
     }
     
     private func setupTabColors() {
-        if let tabBarItems = tabBar.items {
-            let darkGreen = UIColor(red: 0/255, green: 100/255, blue: 0/255, alpha: 1)
-            let textColorNormal = UIColor.white
-            let textColorSelected = UIColor.white
-            
-            // Apply to all tabs dynamically
-            for item in tabBarItems {
-                item.setTitleTextAttributes([.foregroundColor: textColorNormal], for: .normal)
-                item.setTitleTextAttributes([.foregroundColor: textColorSelected], for: .selected)
-            }
-            
-            // Icons with dark green
-            tabBarItems[0].image = UIImage(systemName: "sportscourt")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
-            tabBarItems[0].selectedImage = UIImage(systemName: "sportscourt.fill")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
-            
-            tabBarItems[1].image = UIImage(systemName: "heart")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
-            tabBarItems[1].selectedImage = UIImage(systemName: "heart.fill")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
+        guard let tabBarItems = tabBar.items else { return }
+
+        let darkGreen = UIColor(red: 0/255, green: 100/255, blue: 0/255, alpha: 1)
+        let customColor = UIColor(named: "navigationColor")
+        
+        // Configure text attributes
+        let normalAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont.systemFont(ofSize: 12, weight: .regular)
+        ]
+        
+        let selectedAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.black,
+            .font: UIFont.systemFont(ofSize: 12, weight: .bold)
+        ]
+        
+        // Apply globally using UITabBarAppearance (iOS 13+)
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor(named: "navigationColor")
+        
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = normalAttributes
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = selectedAttributes
+        
+        tabBar.standardAppearance = appearance
+        if #available(iOS 15.0, *) {
+            tabBar.scrollEdgeAppearance = appearance
         }
-    }
-}
+
+        tabBarItems[0].image = UIImage(systemName: "sportscourt")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
+        tabBarItems[0].selectedImage = UIImage(systemName: "sportscourt.fill")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
+        
+        tabBarItems[1].image = UIImage(systemName: "heart")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
+        tabBarItems[1].selectedImage = UIImage(systemName: "heart.fill")?.withTintColor(darkGreen, renderingMode: .alwaysOriginal)
+    }}

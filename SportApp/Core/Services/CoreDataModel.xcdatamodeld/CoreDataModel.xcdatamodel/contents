@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23H626" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CDFixture" representedClassName="CDFixture" syncable="YES" codeGenerationType="class">
+        <attribute name="awayTeamKey" optional="YES" attributeType="String"/>
+        <attribute name="countryName" optional="YES" attributeType="String"/>
+        <attribute name="eventAwayTeam" optional="YES" attributeType="String"/>
+        <attribute name="eventAwayTeamLogo" optional="YES" attributeType="String"/>
+        <attribute name="eventDate" optional="YES" attributeType="String"/>
+        <attribute name="eventFinalResult" optional="YES" attributeType="String"/>
+        <attribute name="eventHomeTeam" optional="YES" attributeType="String"/>
+        <attribute name="eventHomeTeamLogo" optional="YES" attributeType="String"/>
+        <attribute name="eventKey" optional="YES" attributeType="String"/>
+        <attribute name="eventLive" optional="YES" attributeType="String"/>
+        <attribute name="eventQuarter" optional="YES" attributeType="String"/>
+        <attribute name="eventStatus" optional="YES" attributeType="String"/>
+        <attribute name="eventTime" optional="YES" attributeType="String"/>
+        <attribute name="homeTeamKey" optional="YES" attributeType="String"/>
+        <attribute name="leagueKey" optional="YES" attributeType="String"/>
+        <attribute name="leagueName" optional="YES" attributeType="String"/>
+        <attribute name="leagueRound" optional="YES" attributeType="String"/>
+        <attribute name="leagueSeason" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CDLeague" representedClassName=".CDLeague" syncable="YES" codeGenerationType="class">
+        <attribute name="countryKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="countryName" optional="YES" attributeType="String"/>
+        <attribute name="leagueKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="leagueLogo" optional="YES" attributeType="String"/>
+        <attribute name="leagueName" optional="YES" attributeType="String"/>
+        <attribute name="leagueSurface" optional="YES" attributeType="String"/>
+        <attribute name="selectedSport" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="CDStanding" representedClassName="CDStanding" syncable="YES" codeGenerationType="class">
+        <attribute name="fkStageKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="leagueKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="leagueRound" optional="YES" attributeType="String"/>
+        <attribute name="leagueSeason" optional="YES" attributeType="String"/>
+        <attribute name="stageName" optional="YES" attributeType="String"/>
+        <attribute name="standingPlace" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="standingPlaceType" optional="YES" attributeType="String"/>
+        <attribute name="standingTeam" optional="YES" attributeType="String"/>
+        <attribute name="standingUpdated" optional="YES" attributeType="String"/>
+        <attribute name="teamKey" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="teamLogo" optional="YES" attributeType="String"/>
+    </entity>
+</model>

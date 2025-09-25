@@ -3,8 +3,8 @@
     <device id="retina6_12" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,39 +17,59 @@
                 <rect key="frame" x="0.0" y="0.0" width="470" height="263"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EXu-JN-m0E" userLabel="ContainerView">
-                        <rect key="frame" x="0.0" y="0.0" width="470" height="253"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tfL-rl-unQ" userLabel="ContainerView">
+                        <rect key="frame" x="0.0" y="0.0" width="470" height="247"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yTQ-VV-DkU">
-                                <rect key="frame" x="16" y="25.333333333333329" width="141" height="202.33333333333337"/>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-Mq-bNE">
-                                <rect key="frame" x="165" y="113.66666666666667" width="43.666666666666657" height="25.666666666666671"/>
-                                <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="18"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="bSU-c7-BKh">
+                                <rect key="frame" x="0.0" y="0.0" width="470" height="247"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yTQ-VV-DkU">
+                                        <rect key="frame" x="16" y="88.666666666666671" width="70" height="70.000000000000014"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="70" id="ShY-WM-yDG"/>
+                                            <constraint firstAttribute="width" secondItem="yTQ-VV-DkU" secondAttribute="height" multiplier="1:1" id="TEP-kt-ndP"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8mY-Mq-bNE">
+                                        <rect key="frame" x="94" y="110.66666666666667" width="332" height="25.666666666666671"/>
+                                        <fontDescription key="fontDescription" name="ChalkboardSE-Regular" family="Chalkboard SE" pointSize="18"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="chevron.right" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="xoJ-QA-ufj">
+                                        <rect key="frame" x="434" y="115.66666666666667" width="20" height="16.333333333333329"/>
+                                        <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="xoJ-QA-ufj" secondAttribute="height" multiplier="1:1" id="UfA-cy-VEF"/>
+                                            <constraint firstAttribute="height" constant="20" id="bYR-cT-oHQ"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" name="backgroundColor"/>
+                                <edgeInsets key="layoutMargins" top="8" left="16" bottom="8" right="16"/>
+                            </stackView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="opaqueSeparatorColor"/>
+                        <color key="backgroundColor" name="cellColor"/>
                         <constraints>
-                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="height" secondItem="EXu-JN-m0E" secondAttribute="height" multiplier="0.8" id="2NQ-bx-9iK"/>
-                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="centerY" secondItem="EXu-JN-m0E" secondAttribute="centerY" id="6on-7B-iOP"/>
-                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="leading" secondItem="EXu-JN-m0E" secondAttribute="leading" constant="16" id="7KZ-HS-N6u"/>
-                            <constraint firstItem="8mY-Mq-bNE" firstAttribute="centerY" secondItem="EXu-JN-m0E" secondAttribute="centerY" id="G4r-eT-qEE"/>
-                            <constraint firstItem="8mY-Mq-bNE" firstAttribute="leading" secondItem="yTQ-VV-DkU" secondAttribute="trailing" constant="8" id="iEE-fr-UfD"/>
-                            <constraint firstItem="yTQ-VV-DkU" firstAttribute="width" secondItem="EXu-JN-m0E" secondAttribute="width" multiplier="0.3" id="j7a-1G-bYO"/>
+                            <constraint firstItem="bSU-c7-BKh" firstAttribute="top" secondItem="tfL-rl-unQ" secondAttribute="top" id="SZ3-5e-LgQ"/>
+                            <constraint firstItem="bSU-c7-BKh" firstAttribute="leading" secondItem="tfL-rl-unQ" secondAttribute="leading" id="X91-Fo-VEt"/>
+                            <constraint firstAttribute="trailing" secondItem="bSU-c7-BKh" secondAttribute="trailing" id="fZ9-rL-r5P"/>
+                            <constraint firstAttribute="bottom" secondItem="bSU-c7-BKh" secondAttribute="bottom" id="sr4-dn-zEG"/>
                         </constraints>
                     </view>
                 </subviews>
+                <color key="backgroundColor" name="backgroundColor"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="EXu-JN-m0E" secondAttribute="trailing" id="Aa4-nd-XuL"/>
-                    <constraint firstAttribute="bottom" secondItem="EXu-JN-m0E" secondAttribute="bottom" constant="10" id="Ub6-tE-NR2"/>
-                    <constraint firstItem="EXu-JN-m0E" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="khN-WD-7ls"/>
-                    <constraint firstItem="EXu-JN-m0E" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="t6e-02-jGa"/>
+                    <constraint firstAttribute="trailing" secondItem="tfL-rl-unQ" secondAttribute="trailing" id="5wL-eK-IvH"/>
+                    <constraint firstItem="tfL-rl-unQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="Pue-nU-KRw"/>
+                    <constraint firstAttribute="bottom" secondItem="tfL-rl-unQ" secondAttribute="bottom" constant="16" id="Xrc-wO-U7d"/>
+                    <constraint firstItem="tfL-rl-unQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="aPp-eQ-eee"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="containerView" destination="tfL-rl-unQ" id="EAV-AA-aOB"/>
+                <outlet property="contentStackView" destination="bSU-c7-BKh" id="KMp-ys-enY"/>
                 <outlet property="leaguesContentView" destination="H2p-sc-9uM" id="kq2-Lr-dHV"/>
                 <outlet property="leaguesImageView" destination="yTQ-VV-DkU" id="lHH-76-Vn2"/>
                 <outlet property="leaguesNameLabel" destination="8mY-Mq-bNE" id="roN-a1-mAO"/>
@@ -58,8 +78,12 @@
         </tableViewCell>
     </objects>
     <resources>
-        <systemColor name="opaqueSeparatorColor">
-            <color red="0.77647058820000003" green="0.77647058820000003" blue="0.7843137255" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
+        <image name="chevron.right" catalog="system" width="97" height="128"/>
+        <namedColor name="backgroundColor">
+            <color red="0.97273522619999997" green="0.97676652669999997" blue="0.98013991119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="cellColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

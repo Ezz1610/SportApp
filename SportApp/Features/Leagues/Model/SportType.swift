@@ -6,9 +6,14 @@
 //
 
 import Foundation
-enum SportType {
-    case football
-    case basketball
-    case tennis
-    case cricket
+enum SportType: String {
+        case football = "football"
+        case basketball = "basketball"
+        case tennis = "tennis"
+        case cricket = "cricket"
+    
+    init?(rawValueInsensitive value: String?) {
+        guard let value = value?.lowercased() else { return nil }
+        self.init(rawValue: value)
+    }
 }
