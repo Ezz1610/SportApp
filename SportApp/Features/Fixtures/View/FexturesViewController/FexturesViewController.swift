@@ -94,10 +94,8 @@ class FexturesViewController: UIViewController {
 
         switch sportType {
         case .football, .basketball, .cricket:
-            // these support league filter
             queryItems.append(URLQueryItem(name: "leagueId", value: "\(leagueId)"))
         case .tennis:
-            // for tennis, omit leagueId (if API doesn’t support it)
             break
         }
 
@@ -136,13 +134,12 @@ class FexturesViewController: UIViewController {
         case .football, .basketball, .cricket:
             queryItems.append(URLQueryItem(name: "leagueId", value: "\(leagueId)"))
         case .tennis:
-            // omit leagueId
             break
         }
 
         let apiUrl: String
         switch sportType {
-        case .football:   apiUrl = ApiUrls.latestEventsFootballFixtures
+        case .football:   apiUrl = ApiUrls.footballFixtures
         case .basketball: apiUrl = ApiUrls.basketballFixtures
         case .tennis:     apiUrl = ApiUrls.tennisFixtures
         case .cricket:    apiUrl = ApiUrls.cricketFixtures
@@ -259,8 +256,6 @@ class FexturesViewController: UIViewController {
             alignment: .top
         )
         section.boundarySupplementaryItems = [header]
-     //   header.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 0, bottom: 0, trailing: 0)
-        
         return section
     }
     
