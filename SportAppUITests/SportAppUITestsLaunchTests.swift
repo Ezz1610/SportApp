@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import SportApp
 
 final class SportAppUITestsLaunchTests: XCTestCase {
 

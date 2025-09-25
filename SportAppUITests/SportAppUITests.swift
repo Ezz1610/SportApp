@@ -6,7 +6,7 @@
 //
 
 import XCTest
-
+@testable import SportApp
 final class SportAppUITests: XCTestCase {
 
     override func setUpWithError() throws {
@@ -38,4 +38,5 @@ final class SportAppUITests: XCTestCase {
             }
         }
     }
+
 }

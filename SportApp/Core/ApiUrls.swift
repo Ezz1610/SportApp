@@ -34,7 +34,8 @@ class ApiUrls {
          URLQueryItem(name: "to", value: "2021-05-18")
      ]
      */
-    
+
+
     /// FIXTURES - UPCOMING EVENTS
     
     static let upCommingEventsFootballFixtures  = "\(footballFixtures)&from=\(AppConstants.getNowDate())&to=\(String(describing: AppConstants.getLastDateOfCurrentMonth()))"

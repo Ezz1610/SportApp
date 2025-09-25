@@ -192,7 +192,6 @@ class FexturesViewController: UIViewController {
     
     func handleStandingsResponse(_ response: StandingsTeamsResponse){
         leagueTeams = response.result.total
-        
         fexturesCollectionView.reloadData()
     }
     
