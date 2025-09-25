@@ -43,7 +43,7 @@ class FexturesViewController: UIViewController {
         guard let id = leagueId, let name = leagueName else { return }
         
         let context = CoreDataHelper.shared.viewContext
-        let league = CDLeague(context: context)
+      //  let league = CDLeague(context: context)
         
         //        let  leagueModel = CDLeague(context: context)
         //        leagueModel.leagueKey = Int64(id)
