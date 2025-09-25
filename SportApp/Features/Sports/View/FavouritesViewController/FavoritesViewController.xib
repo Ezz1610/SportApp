@@ -29,7 +29,7 @@
                             <color key="sectionIndexBackgroundColor" name="backgroundColor"/>
                         </tableView>
                     </subviews>
-                    <color key="backgroundColor" red="0.97254901959999995" green="0.97647058819999999" blue="0.98039215690000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="backgroundColor" name="backgroundColor"/>
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="VLZ-sw-CIf" secondAttribute="trailing" constant="16" id="H9z-UT-t82"/>
                         <constraint firstItem="VLZ-sw-CIf" firstAttribute="leading" secondItem="PB7-4D-SvF" secondAttribute="leading" constant="16" id="U6m-Xi-XLJ"/>
@@ -51,10 +51,10 @@
     </objects>
     <resources>
         <namedColor name="backgroundColor">
-            <color red="0.97273522619999997" green="0.97676652669999997" blue="0.98013991119999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.97299998998641968" green="0.97699999809265137" blue="0.98000001907348633" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="headerColor">
-            <color red="0.2151448131" green="0.47916305069999998" blue="0.23771187660000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.21500000357627869" green="0.47900000214576721" blue="0.23800000548362732" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

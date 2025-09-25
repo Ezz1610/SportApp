@@ -16,7 +16,6 @@ class NetworkService: FetchDataProtocol {
         queryItems: [URLQueryItem] = [],
         completionHandler: @escaping (Result<T, Error>) -> Void
     ) {
-        // Build the URL with query items
         var components = URLComponents(string: baseURL)
         components?.queryItems = queryItems
         
@@ -27,7 +26,6 @@ class NetworkService: FetchDataProtocol {
 
         print("Request URL: \(finalURL.absoluteString)")
 
-        // Create the request and start the task
         let task = URLSession.shared.dataTask(with: finalURL) { data, response, error in
             if let error = error {
                 completionHandler(.failure(error))

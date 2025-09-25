@@ -26,6 +26,4 @@ class ApiUrls {
 
 }
 
-/*
- {"error":"1","result":[{"param":null,"msg":"The difference between to and from cannot be greater than 15 days if there is no other parameter","cod":202}]}
- */
+
